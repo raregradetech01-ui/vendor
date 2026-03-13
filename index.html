@@ -136,9 +136,7 @@
             margin-bottom: 32px;
         }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
+        .input-group { margin-bottom: 20px; }
 
         .input-group label {
             display: block;
@@ -223,7 +221,6 @@
             80% { transform: translateX(4px); }
         }
 
-        /* ───── REGISTER LINK ───── */
         .register-link {
             text-align: center;
             margin-top: 24px;
@@ -247,17 +244,15 @@
             position: fixed;
             inset: 0;
             display: none;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             z-index: 1000;
             background: var(--bg);
             overflow-y: auto;
             padding: 40px 20px;
-            transition: opacity 0.4s ease;
         }
 
         #registerScreen.show { display: flex; }
-        #registerScreen.hide { opacity: 0; pointer-events: none; }
 
         .register-box {
             width: 560px;
@@ -292,6 +287,7 @@
             font-size: 0.85rem;
             color: var(--dim);
             margin-bottom: 32px;
+            line-height: 1.6;
         }
 
         .reg-grid {
@@ -301,12 +297,7 @@
             margin-bottom: 16px;
         }
 
-        .reg-field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        .reg-field { display: flex; flex-direction: column; gap: 8px; }
         .reg-field.full { grid-column: 1 / -1; }
 
         .reg-field label {
@@ -318,8 +309,7 @@
         }
 
         .reg-field input,
-        .reg-field textarea,
-        .reg-field select {
+        .reg-field textarea {
             background: var(--surface2);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -333,14 +323,12 @@
         }
 
         .reg-field input:focus,
-        .reg-field textarea:focus,
-        .reg-field select:focus {
+        .reg-field textarea:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(255,107,53,0.1);
         }
 
         .reg-field textarea { min-height: 80px; }
-        .reg-field select option { background: var(--surface2); }
 
         .btn-register {
             width: 100%;
@@ -355,13 +343,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 8px;
-            position: relative;
-            overflow: hidden;
             letter-spacing: 0.5px;
         }
 
         .btn-register:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,53,0.35); }
         .btn-register:active { transform: translateY(0); }
+        .btn-register:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
 
         .back-link {
             text-align: center;
@@ -392,8 +379,8 @@
             display: none;
         }
 
-        /* ───── SUCCESS SCREEN ───── */
-        #successScreen {
+        /* ───── PENDING SCREEN ───── */
+        #pendingScreen {
             position: fixed;
             inset: 0;
             display: none;
@@ -403,14 +390,14 @@
             background: var(--bg);
         }
 
-        #successScreen.show { display: flex; }
+        #pendingScreen.show { display: flex; }
 
-        .success-box {
-            width: 420px;
+        .pending-box {
+            width: 480px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 28px;
-            padding: 56px 40px;
+            padding: 56px 44px;
             text-align: center;
             box-shadow: 0 40px 80px rgba(0,0,0,0.5);
             animation: loginAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -418,16 +405,16 @@
             overflow: hidden;
         }
 
-        .success-box::before {
+        .pending-box::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--success), #5aff8a);
+            background: linear-gradient(90deg, var(--accent2), #ffcc00);
             border-radius: 28px 28px 0 0;
         }
 
-        .success-icon {
+        .pending-icon {
             font-size: 3.5rem;
             margin-bottom: 20px;
             display: block;
@@ -439,50 +426,65 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        .success-title {
+        .pending-title {
             font-family: 'Syne', sans-serif;
             font-size: 1.7rem;
             font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .success-sub {
-            font-size: 0.88rem;
-            color: var(--dim);
-            line-height: 1.6;
             margin-bottom: 12px;
         }
 
-        .success-id-box {
-            background: var(--surface2);
-            border: 1px solid rgba(48,209,88,0.2);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 24px 0;
-        }
-
-        .success-id-label {
-            font-size: 0.75rem;
+        .pending-sub {
+            font-size: 0.88rem;
             color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .success-id-val {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--success);
-            letter-spacing: 8px;
-        }
-
-        .success-note {
-            font-size: 0.8rem;
-            color: var(--dim);
+            line-height: 1.7;
             margin-bottom: 28px;
+        }
+
+        .pending-steps {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px 24px;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .pending-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.83rem;
+            color: var(--dim);
             line-height: 1.5;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pending-step:last-child { border: none; padding-bottom: 0; }
+        .pending-step:first-child { padding-top: 0; }
+
+        .step-num {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: var(--glow);
+            border: 1px solid rgba(255,107,53,0.3);
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .pending-note {
+            background: rgba(255, 149, 0, 0.08);
+            border: 1px solid rgba(255,149,0,0.2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 0.82rem;
+            color: var(--accent2);
+            margin-bottom: 24px;
+            line-height: 1.6;
         }
 
         .btn-back-login {
@@ -560,23 +562,11 @@
             border-radius: 2px 0 0 2px;
         }
 
-        .sidebar-divider {
-            width: 32px; height: 1px;
-            background: var(--border);
-            margin: 8px 0;
-        }
-
-        .sidebar-bottom {
-            margin-top: auto;
-        }
+        .sidebar-divider { width: 32px; height: 1px; background: var(--border); margin: 8px 0; }
+        .sidebar-bottom { margin-top: auto; }
 
         /* ───── MAIN PANEL ───── */
-        .main {
-            margin-left: 72px;
-            flex: 1;
-            padding: 0;
-            min-height: 100vh;
-        }
+        .main { margin-left: 72px; flex: 1; padding: 0; min-height: 100vh; }
 
         /* ───── TOPBAR ───── */
         .topbar {
@@ -592,21 +582,11 @@
         }
 
         .topbar-left { display: flex; flex-direction: column; gap: 2px; }
-        .topbar-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
 
-        .topbar-id {
-            font-size: 0.78rem;
-            color: var(--dim);
-        }
+        .topbar-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; }
 
-        .topbar-id span {
-            color: var(--accent);
-            font-weight: 600;
-        }
+        .topbar-id { font-size: 0.78rem; color: var(--dim); }
+        .topbar-id span { color: var(--accent); font-weight: 600; }
 
         .status-pill {
             display: flex;
@@ -662,27 +642,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ───── SECTION TITLE ───── */
-        .section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
+        .section-title { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
+        .section-sub { font-size: 0.85rem; color: var(--dim); margin-bottom: 32px; }
 
-        .section-sub {
-            font-size: 0.85rem;
-            color: var(--dim);
-            margin-bottom: 32px;
-        }
-
-        /* ───── OVERVIEW STATS ───── */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-        }
+        /* ───── STATS ───── */
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
 
         .stat-tile {
             background: var(--surface);
@@ -705,34 +669,12 @@
             background: var(--glow);
         }
 
-        .stat-tile .icon {
-            font-size: 1.5rem;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .stat-tile .val {
-            font-family: 'Syne', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .stat-tile .lbl {
-            font-size: 0.78rem;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 600;
-        }
+        .stat-tile .icon { font-size: 1.5rem; margin-bottom: 16px; display: block; }
+        .stat-tile .val { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
+        .stat-tile .lbl { font-size: 0.78rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
 
         /* ───── INFO CARD ───── */
-        .info-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            overflow: hidden;
-        }
+        .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
 
         .card-head {
             padding: 20px 24px;
@@ -742,28 +684,13 @@
             justify-content: space-between;
         }
 
-        .card-head h2 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-        }
-
+        .card-head h2 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
         .card-body { padding: 24px; }
 
-        /* ───── FORM ELEMENTS ───── */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
+        /* ───── FORM ───── */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-grid.full { grid-template-columns: 1fr; }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .field { display: flex; flex-direction: column; gap: 8px; }
 
         .field label {
             font-size: 0.78rem;
@@ -796,7 +723,6 @@
         }
 
         .field textarea { min-height: 90px; }
-
         .field select option { background: var(--surface2); }
 
         /* ───── BUTTONS ───── */
@@ -814,38 +740,18 @@
             gap: 8px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            color: white;
-        }
-
+        .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,53,0.3); }
 
-        .btn-secondary {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-
+        .btn-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
         .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
-        .btn-danger {
-            background: rgba(255,69,58,0.1);
-            border: 1px solid rgba(255,69,58,0.2);
-            color: var(--danger);
-        }
-
+        .btn-danger { background: rgba(255,69,58,0.1); border: 1px solid rgba(255,69,58,0.2); color: var(--danger); }
         .btn-danger:hover { background: var(--danger); color: white; }
 
-        .btn-success {
-            background: rgba(48,209,88,0.1);
-            border: 1px solid rgba(48,209,88,0.2);
-            color: var(--success);
-        }
-
+        .btn-success { background: rgba(48,209,88,0.1); border: 1px solid rgba(48,209,88,0.2); color: var(--success); }
         .btn-success:hover { background: var(--success); color: var(--bg); }
 
-        /* ───── SAVE BAR ───── */
         .save-bar {
             display: flex;
             justify-content: flex-end;
@@ -855,13 +761,8 @@
             margin-top: 20px;
         }
 
-        /* ───── MENU ITEMS ───── */
-        .menu-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
+        /* ───── MENU ───── */
+        .menu-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
 
         .menu-search {
             flex: 1;
@@ -877,11 +778,7 @@
 
         .menu-search:focus { border-color: var(--accent); }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
 
         .menu-card {
             background: var(--surface);
@@ -900,44 +797,12 @@
 
         .menu-card:hover { border-color: rgba(255,107,53,0.3); transform: translateY(-3px); }
 
-        .menu-card-emoji {
-            font-size: 2rem;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .menu-card-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .menu-card-desc {
-            font-size: 0.8rem;
-            color: var(--dim);
-            margin-bottom: 12px;
-            line-height: 1.5;
-            min-height: 36px;
-        }
-
-        .menu-card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .menu-card-price {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
-
-        .menu-card-actions {
-            display: flex;
-            gap: 6px;
-        }
+        .menu-card-emoji { font-size: 2rem; margin-bottom: 12px; display: block; }
+        .menu-card-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+        .menu-card-desc { font-size: 0.8rem; color: var(--dim); margin-bottom: 12px; line-height: 1.5; min-height: 36px; }
+        .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
+        .menu-card-price { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--accent); }
+        .menu-card-actions { display: flex; gap: 6px; }
 
         .icon-btn {
             width: 32px; height: 32px;
@@ -954,13 +819,7 @@
         .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
         .icon-btn.del:hover { border-color: var(--danger); color: var(--danger); background: rgba(255,69,58,0.1); }
 
-        .menu-available-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
-            color: var(--dim);
-        }
+        .menu-available-toggle { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--dim); }
 
         .toggle {
             width: 36px; height: 20px;
@@ -986,7 +845,7 @@
 
         .toggle.on::after { transform: translateX(16px); }
 
-        /* ───── ADD ITEM MODAL ───── */
+        /* ───── MODAL ───── */
         .modal-bg {
             display: none;
             position: fixed; inset: 0;
@@ -1014,14 +873,7 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .modal h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 24px;
-        }
-
-        .modal .form-grid { margin-bottom: 0; }
+        .modal h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 24px; }
 
         /* ───── TOAST ───── */
         #toast {
@@ -1047,7 +899,7 @@
         #toast.success { border-left: 4px solid var(--success); }
         #toast.error { border-left: 4px solid var(--danger); }
 
-        /* ───── HOURS SECTION ───── */
+        /* ───── HOURS ───── */
         .hours-row {
             display: grid;
             grid-template-columns: 100px 1fr 1fr 80px;
@@ -1058,12 +910,7 @@
         }
 
         .hours-row:last-child { border: none; }
-
-        .day-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--dim);
-        }
+        .day-label { font-size: 0.85rem; font-weight: 600; color: var(--dim); }
 
         .hours-input {
             background: var(--surface2);
@@ -1078,26 +925,13 @@
         }
 
         .hours-input:focus { border-color: var(--accent); }
+        .day-toggle { font-size: 0.78rem; color: var(--dim); display: flex; align-items: center; gap: 6px; }
 
-        .day-toggle {
-            font-size: 0.78rem;
-            color: var(--dim);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* ───── EMPTY STATE ───── */
-        .empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--dim);
-        }
-
+        /* ───── EMPTY ───── */
+        .empty { text-align: center; padding: 60px 20px; color: var(--dim); }
         .empty-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
         .empty p { font-size: 0.9rem; }
 
-        /* ───── CATEGORY TAG ───── */
         .cat-tag {
             display: inline-block;
             background: var(--surface2);
@@ -1112,7 +946,6 @@
             margin-bottom: 8px;
         }
 
-        /* ───── SCROLLBAR ───── */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 100px; }
@@ -1124,11 +957,11 @@
             border-top-color: white;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
+            vertical-align: middle;
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ───── INPUT COLOR FIX ───── */
         input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.4); }
     </style>
 </head>
@@ -1144,14 +977,14 @@
 
             <div class="input-group">
                 <label>Vendor ID</label>
-                <input class="input-field" id="idInput" type="text" maxlength="4" placeholder="0000" oninput="this.value=this.value.replace(/\D/g,'')" onkeydown="if(event.key==='Enter')doLogin()">
+                <input class="input-field" id="idInput" type="text" maxlength="4" placeholder="0000"
+                    oninput="this.value=this.value.replace(/\D/g,'')"
+                    onkeydown="if(event.key==='Enter')doLogin()">
             </div>
 
             <button class="btn-login" onclick="doLogin()" id="loginBtn">Access Portal</button>
 
-            <div class="login-error" id="loginError">
-                ⚠ Vendor ID not found. Please contact admin if you believe this is an error.
-            </div>
+            <div class="login-error" id="loginError"></div>
 
             <div class="register-link">
                 New restaurant? <a onclick="showRegister()">Apply to join Vynix Eats →</a>
@@ -1165,7 +998,9 @@
             <div class="login-logo" style="margin-bottom:4px">VYNIX<span>EATS</span></div>
             <div class="login-tagline" style="margin-bottom:24px">VENDOR PORTAL</div>
             <div class="register-title">Join Vynix Eats</div>
-            <div class="register-subtitle">Fill in your restaurant details. Once submitted, our team will review your application and activate your account.</div>
+            <div class="register-subtitle">
+                Submit your restaurant details below. Our admin team will review your application, and once approved, they will assign you a <strong style="color:var(--text)">4-digit Vendor ID</strong> — which you'll use to log in. You'll be contacted via the details you provide.
+            </div>
 
             <div class="reg-grid">
                 <div class="reg-field">
@@ -1212,19 +1047,37 @@
         </div>
     </div>
 
-    <!-- ═══ SUCCESS SCREEN ═══ -->
-    <div id="successScreen">
-        <div class="success-box">
-            <span class="success-icon">🎉</span>
-            <div class="success-title">Application Submitted!</div>
-            <div class="success-sub">Your restaurant has been registered. Here is your assigned Vendor ID — save it, you'll need it to log in once approved.</div>
-
-            <div class="success-id-box">
-                <div class="success-id-label">Your Vendor ID</div>
-                <div class="success-id-val" id="newVendorID">----</div>
+    <!-- ═══ PENDING SCREEN ═══ -->
+    <div id="pendingScreen">
+        <div class="pending-box">
+            <span class="pending-icon">📋</span>
+            <div class="pending-title">Application Submitted!</div>
+            <div class="pending-sub">
+                Your application has been received and is now in the admin review queue.
             </div>
 
-            <div class="success-note">⏳ Your account is currently <strong>pending review</strong>. The Vynix Eats admin team will approve your application shortly. You will be able to log in once your account is activated.</div>
+            <div class="pending-steps">
+                <div class="pending-step">
+                    <div class="step-num">1</div>
+                    <span>The Vynix Eats admin team reviews your application.</span>
+                </div>
+                <div class="pending-step">
+                    <div class="step-num">2</div>
+                    <span>Once approved, the admin assigns a unique <strong style="color:var(--text)">4-digit Vendor ID</strong> to your account.</span>
+                </div>
+                <div class="pending-step">
+                    <div class="step-num">3</div>
+                    <span>You are contacted via phone or email with your Vendor ID.</span>
+                </div>
+                <div class="pending-step">
+                    <div class="step-num">4</div>
+                    <span>Return here and log in using your assigned Vendor ID.</span>
+                </div>
+            </div>
+
+            <div class="pending-note">
+                ⏳ Keep an eye on the contact details you provided. The admin will reach out once your application has been reviewed.
+            </div>
 
             <button class="btn-back-login" onclick="showLogin()">← Back to Login</button>
         </div>
@@ -1280,9 +1133,7 @@
                 </div>
 
                 <div class="info-card">
-                    <div class="card-head">
-                        <h2>Quick Actions</h2>
-                    </div>
+                    <div class="card-head"><h2>Quick Actions</h2></div>
                     <div class="card-body" style="display:flex; gap:12px; flex-wrap:wrap;">
                         <button class="btn btn-primary" onclick="switchPage('menu', document.getElementById('nav-menu'))">➕ Add Menu Item</button>
                         <button class="btn btn-secondary" onclick="switchPage('profile', document.getElementById('nav-profile'))">✏️ Edit Profile</button>
@@ -1364,7 +1215,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -1402,7 +1252,6 @@
         </div>
     </div>
 
-    <!-- TOAST -->
     <div id="toast"></div>
 
     <script>
@@ -1427,16 +1276,17 @@
     // ─────────────────────────────────────────────
     let currentKey = null;
     let vendorData = {};
-    let menuItems = {};
+    let menuItems  = {};
 
     const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
     // ─────────────────────────────────────────────
-    //  SCREEN SWITCHING
+    //  SCREEN HELPERS
     // ─────────────────────────────────────────────
     function showLogin() {
         document.getElementById('registerScreen').classList.remove('show');
-        document.getElementById('successScreen').classList.remove('show');
+        document.getElementById('pendingScreen').classList.remove('show');
+        document.getElementById('dashboard').classList.remove('visible');
         const ls = document.getElementById('loginScreen');
         ls.style.display = 'flex';
         ls.classList.remove('hide');
@@ -1450,20 +1300,20 @@
         }, 300);
     }
 
-    function showSuccess(id) {
+    function showPending() {
         document.getElementById('registerScreen').classList.remove('show');
-        document.getElementById('newVendorID').textContent = id;
-        document.getElementById('successScreen').classList.add('show');
+        document.getElementById('pendingScreen').classList.add('show');
     }
 
     // ─────────────────────────────────────────────
     //  REGISTRATION
+    //  Saves with status='pending' and NO vendorID.
+    //  The admin dashboard is responsible for:
+    //    - reviewing the application
+    //    - assigning a vendorID
+    //    - setting status='active'
+    //  Only then can the vendor log in.
     // ─────────────────────────────────────────────
-    function generateVendorID() {
-        // Generate a random 4-digit ID between 1000 and 9999
-        return Math.floor(1000 + Math.random() * 9000);
-    }
-
     async function submitRegistration() {
         const name     = document.getElementById('r-name').value.trim();
         const cuisine  = document.getElementById('r-cuisine').value.trim();
@@ -1479,8 +1329,7 @@
             return;
         }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             showRegError('⚠ Please enter a valid email address.');
             return;
         }
@@ -1489,40 +1338,20 @@
         btn.innerHTML = '<div class="loader-ring"></div> Submitting...';
         btn.disabled = true;
 
-        // Check for duplicate email or phone to avoid re-registration
+        // Prevent duplicate applications
         try {
-            const snap = await db.ref('vendors').orderByChild('email').equalTo(email).once('value');
-            if (snap.exists()) {
-                showRegError('⚠ An account with this email already exists. Please log in with your Vendor ID.');
+            const dupSnap = await db.ref('vendors').orderByChild('email').equalTo(email).once('value');
+            if (dupSnap.exists()) {
+                showRegError('⚠ An application with this email already exists. Contact admin if you need help.');
                 btn.innerHTML = 'Submit Application';
                 btn.disabled = false;
                 return;
             }
-        } catch(e) {
-            // proceed even if check fails
-        }
+        } catch(e) { /* non-blocking */ }
 
-        // Generate a unique vendor ID
-        let vendorID;
-        let idIsUnique = false;
-        let attempts = 0;
-
-        while (!idIsUnique && attempts < 20) {
-            vendorID = generateVendorID();
-            const check = await db.ref('vendors').orderByChild('vendorID').equalTo(vendorID).once('value');
-            if (!check.exists()) idIsUnique = true;
-            attempts++;
-        }
-
-        if (!idIsUnique) {
-            showRegError('⚠ Could not generate a unique ID. Please try again.');
-            btn.innerHTML = 'Submit Application';
-            btn.disabled = false;
-            return;
-        }
-
-        const newVendor = {
-            vendorID,
+        // ── Save to Firebase ──
+        // NOTE: No vendorID field. The admin assigns it on approval.
+        const application = {
             name,
             cuisine,
             owner,
@@ -1531,20 +1360,23 @@
             address,
             minOrder,
             description: desc,
-            status: 'pending',           // <-- requires admin approval
+            status: 'pending',
             registeredAt: Date.now()
         };
 
-        db.ref('vendors').push(newVendor)
+        db.ref('vendors').push(application)
             .then(() => {
                 btn.innerHTML = 'Submit Application';
                 btn.disabled = false;
-                showSuccess(String(vendorID).padStart(4, '0'));
+                // Clear form
+                ['r-name','r-cuisine','r-owner','r-phone','r-email','r-minorder','r-address','r-desc']
+                    .forEach(id => document.getElementById(id).value = '');
+                showPending();
             })
-            .catch(err => {
+            .catch(() => {
                 btn.innerHTML = 'Submit Application';
                 btn.disabled = false;
-                showRegError('❌ Submission failed. Please try again.');
+                showRegError('❌ Submission failed. Please check your connection and try again.');
             });
     }
 
@@ -1552,11 +1384,16 @@
         const el = document.getElementById('regError');
         el.textContent = msg;
         el.style.display = 'block';
-        setTimeout(() => { el.style.display = 'none'; }, 5000);
+        setTimeout(() => { el.style.display = 'none'; }, 6000);
     }
 
     // ─────────────────────────────────────────────
     //  LOGIN
+    //  Vendors can only log in if:
+    //    1. A vendorID exists on their record
+    //       (i.e. admin has assigned one)
+    //    2. status === 'active'
+    //       (i.e. admin has approved them)
     // ─────────────────────────────────────────────
     function doLogin() {
         const idVal = document.getElementById('idInput').value.trim();
@@ -1571,7 +1408,8 @@
             btn.disabled = false;
 
             if (!snap.exists()) {
-                showError('Vendor ID not found. Please contact admin if you believe this is an error.');
+                // Could be pending (no vendorID yet) or simply wrong ID
+                showError('Vendor ID not found. If your application is pending, you will receive your ID once approved by admin.');
                 return;
             }
 
@@ -1580,13 +1418,8 @@
                 vendorData = child.val();
             });
 
-            if (vendorData.status === 'pending') {
-                showError('Your account is pending approval. Please wait for admin to activate your account.');
-                return;
-            }
-
             if (vendorData.status !== 'active') {
-                showError('Your account is not active. Please contact admin.');
+                showError('Your account is not yet active. Please wait for admin approval.');
                 return;
             }
 
@@ -1596,7 +1429,7 @@
 
     function showError(msg) {
         const el = document.getElementById('loginError');
-        if (msg) el.textContent = '⚠ ' + msg;
+        el.textContent = '⚠ ' + msg;
         el.style.display = 'block';
         el.style.animation = 'none';
         el.offsetHeight;
@@ -1617,22 +1450,22 @@
     //  DASHBOARD INIT
     // ─────────────────────────────────────────────
     function initDashboard() {
-        document.getElementById('tb-name').textContent = vendorData.name;
-        document.getElementById('tb-id').textContent = vendorData.vendorID;
+        document.getElementById('tb-name').textContent    = vendorData.name;
+        document.getElementById('tb-id').textContent      = vendorData.vendorID;
         document.getElementById('tb-cuisine').textContent = vendorData.cuisine;
-        document.getElementById('stat-id').textContent = '#' + vendorData.vendorID;
+        document.getElementById('stat-id').textContent    = '#' + vendorData.vendorID;
 
-        const hour = new Date().getHours();
+        const hour  = new Date().getHours();
         const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
         document.getElementById('greet-sub').textContent = `${greet}, ${vendorData.name}!`;
 
-        document.getElementById('p-name').value = vendorData.name || '';
-        document.getElementById('p-cuisine').value = vendorData.cuisine || '';
-        document.getElementById('p-phone').value = vendorData.phone || '';
-        document.getElementById('p-email').value = vendorData.email || '';
-        document.getElementById('p-address').value = vendorData.address || '';
-        document.getElementById('p-minorder').value = vendorData.minOrder || '';
-        document.getElementById('p-desc').value = vendorData.description || '';
+        document.getElementById('p-name').value     = vendorData.name        || '';
+        document.getElementById('p-cuisine').value  = vendorData.cuisine     || '';
+        document.getElementById('p-phone').value    = vendorData.phone       || '';
+        document.getElementById('p-email').value    = vendorData.email       || '';
+        document.getElementById('p-address').value  = vendorData.address     || '';
+        document.getElementById('p-minorder').value = vendorData.minOrder    || '';
+        document.getElementById('p-desc').value     = vendorData.description || '';
 
         buildHoursForm();
 
@@ -1658,18 +1491,18 @@
     // ─────────────────────────────────────────────
     function saveProfile() {
         const updates = {
-            name: document.getElementById('p-name').value.trim(),
-            cuisine: document.getElementById('p-cuisine').value.trim(),
-            phone: document.getElementById('p-phone').value.trim(),
-            email: document.getElementById('p-email').value.trim(),
-            address: document.getElementById('p-address').value.trim(),
-            minOrder: parseFloat(document.getElementById('p-minorder').value) || 0,
+            name:        document.getElementById('p-name').value.trim(),
+            cuisine:     document.getElementById('p-cuisine').value.trim(),
+            phone:       document.getElementById('p-phone').value.trim(),
+            email:       document.getElementById('p-email').value.trim(),
+            address:     document.getElementById('p-address').value.trim(),
+            minOrder:    parseFloat(document.getElementById('p-minorder').value) || 0,
             description: document.getElementById('p-desc').value.trim()
         };
 
         db.ref('vendors/' + currentKey).update(updates).then(() => {
             vendorData = { ...vendorData, ...updates };
-            document.getElementById('tb-name').textContent = updates.name;
+            document.getElementById('tb-name').textContent    = updates.name;
             document.getElementById('tb-cuisine').textContent = updates.cuisine;
             showToast('✅ Profile saved successfully', 'success');
         }).catch(() => showToast('❌ Failed to save profile', 'error'));
@@ -1690,11 +1523,11 @@
         grid.innerHTML = '';
 
         keys.forEach(k => {
-            const item = menuItems[k];
+            const item  = menuItems[k];
             if (filter && !item.name.toLowerCase().includes(filter) && !(item.category||'').toLowerCase().includes(filter)) return;
 
             const avail = item.available !== false;
-            const card = document.createElement('div');
+            const card  = document.createElement('div');
             card.className = 'menu-card';
             card.innerHTML = `
                 <span class="cat-tag">${item.category || 'Uncategorized'}</span>
@@ -1718,37 +1551,31 @@
     }
 
     function filterMenu() {
-        const val = document.getElementById('menuSearch').value.toLowerCase();
-        renderMenu(val);
+        renderMenu(document.getElementById('menuSearch').value.toLowerCase());
     }
 
     function updateMenuStats() {
-        const keys = Object.keys(menuItems);
+        const keys  = Object.keys(menuItems);
         const avail = keys.filter(k => menuItems[k].available !== false).length;
-        document.getElementById('stat-items').textContent = keys.length;
+        document.getElementById('stat-items').textContent     = keys.length;
         document.getElementById('stat-available').textContent = avail;
     }
 
     function openAddItem() {
         document.getElementById('modalTitle').textContent = 'Add Menu Item';
-        document.getElementById('mi-name').value = '';
-        document.getElementById('mi-price').value = '';
-        document.getElementById('mi-cat').value = '';
-        document.getElementById('mi-emoji').value = '';
-        document.getElementById('mi-desc').value = '';
-        document.getElementById('mi-key').value = '';
+        ['mi-name','mi-price','mi-cat','mi-emoji','mi-desc','mi-key'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('itemModal').classList.add('open');
     }
 
     function openEditItem(key) {
         const item = menuItems[key];
         document.getElementById('modalTitle').textContent = 'Edit Menu Item';
-        document.getElementById('mi-name').value = item.name || '';
-        document.getElementById('mi-price').value = item.price || '';
-        document.getElementById('mi-cat').value = item.category || '';
-        document.getElementById('mi-emoji').value = item.emoji || '';
-        document.getElementById('mi-desc').value = item.description || '';
-        document.getElementById('mi-key').value = key;
+        document.getElementById('mi-name').value  = item.name        || '';
+        document.getElementById('mi-price').value = item.price       || '';
+        document.getElementById('mi-cat').value   = item.category    || '';
+        document.getElementById('mi-emoji').value = item.emoji       || '';
+        document.getElementById('mi-desc').value  = item.description || '';
+        document.getElementById('mi-key').value   = key;
         document.getElementById('itemModal').classList.add('open');
     }
 
@@ -1757,14 +1584,14 @@
     }
 
     function saveMenuItem() {
-        const key = document.getElementById('mi-key').value;
+        const key  = document.getElementById('mi-key').value;
         const data = {
-            name: document.getElementById('mi-name').value.trim(),
-            price: parseFloat(document.getElementById('mi-price').value) || 0,
-            category: document.getElementById('mi-cat').value.trim(),
-            emoji: document.getElementById('mi-emoji').value.trim() || '🍴',
+            name:        document.getElementById('mi-name').value.trim(),
+            price:       parseFloat(document.getElementById('mi-price').value) || 0,
+            category:    document.getElementById('mi-cat').value.trim(),
+            emoji:       document.getElementById('mi-emoji').value.trim() || '🍴',
             description: document.getElementById('mi-desc').value.trim(),
-            available: true
+            available:   true
         };
 
         if (!data.name) return showToast('⚠ Item name is required', 'error');
@@ -1773,10 +1600,9 @@
             ? db.ref(`vendors/${currentKey}/menu/${key}`)
             : db.ref(`vendors/${currentKey}/menu`).push();
 
-        ref.set(data).then(() => {
-            showToast('✅ Menu item saved', 'success');
-            closeModal();
-        }).catch(() => showToast('❌ Failed to save item', 'error'));
+        ref.set(data)
+            .then(() => { showToast('✅ Menu item saved', 'success'); closeModal(); })
+            .catch(() => showToast('❌ Failed to save item', 'error'));
     }
 
     function deleteItem(key, name) {
@@ -1795,7 +1621,7 @@
     //  HOURS
     // ─────────────────────────────────────────────
     function buildHoursForm() {
-        const container = document.getElementById('hoursForm');
+        const container  = document.getElementById('hoursForm');
         const savedHours = vendorData.hours || {};
 
         container.innerHTML = DAYS.map(day => {
@@ -1815,14 +1641,14 @@
     }
 
     function toggleDay(day) {
-        const tog = document.getElementById(`h-tog-${day}`);
-        const lbl = document.getElementById(`h-lbl-${day}`);
-        const openI = document.getElementById(`h-open-${day}`);
+        const tog    = document.getElementById(`h-tog-${day}`);
+        const lbl    = document.getElementById(`h-lbl-${day}`);
+        const openI  = document.getElementById(`h-open-${day}`);
         const closeI = document.getElementById(`h-close-${day}`);
         const isOpen = tog.classList.contains('on');
         tog.classList.toggle('on');
         lbl.textContent = isOpen ? 'Closed' : 'Open';
-        openI.disabled = isOpen;
+        openI.disabled  = isOpen;
         closeI.disabled = isOpen;
     }
 
@@ -1831,8 +1657,8 @@
         DAYS.forEach(day => {
             const isClosed = !document.getElementById(`h-tog-${day}`).classList.contains('on');
             hours[day] = {
-                open: document.getElementById(`h-open-${day}`).value,
-                close: document.getElementById(`h-close-${day}`).value,
+                open:   document.getElementById(`h-open-${day}`).value,
+                close:  document.getElementById(`h-close-${day}`).value,
                 closed: isClosed
             };
         });
@@ -1850,10 +1676,9 @@
         if (currentKey) db.ref(`vendors/${currentKey}/menu`).off();
         currentKey = null;
         vendorData = {};
-        menuItems = {};
+        menuItems  = {};
         document.getElementById('idInput').value = '';
         document.getElementById('loginError').style.display = 'none';
-        document.getElementById('dashboard').classList.remove('visible');
         showLogin();
     }
 
@@ -1864,12 +1689,11 @@
     function showToast(msg, type = 'success') {
         const t = document.getElementById('toast');
         t.textContent = msg;
-        t.className = `show ${type}`;
+        t.className   = `show ${type}`;
         clearTimeout(toastTimer);
         toastTimer = setTimeout(() => t.className = '', 3000);
     }
 
-    // Close modal on bg click
     document.getElementById('itemModal').addEventListener('click', e => {
         if (e.target === document.getElementById('itemModal')) closeModal();
     });
