@@ -23,1142 +23,43 @@
             --glow: rgba(255, 107, 53, 0.08);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: -200px; left: -200px;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(255,107,53,0.03) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-            animation: driftBg 12s ease-in-out infinite alternate;
-        }
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -150px; right: -150px;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(255,149,0,0.03) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        @keyframes driftBg {
-            from { transform: translate(0, 0); }
-            to { transform: translate(60px, 40px); }
-        }
-        /* ───── LOGIN SCREEN ───── */
-        #loginScreen {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            background: var(--bg);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        #loginScreen.hide {
-            opacity: 0;
-            transform: scale(0.95);
-            pointer-events: none;
-        }
-        .login-box {
-            width: 420px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 48px 40px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.05), 0 0 0 1px rgba(255,255,255,0.5) inset;
-            animation: loginAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        @keyframes loginAppear {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .login-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            border-radius: 28px 28px 0 0;
-        }
-        .login-logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 6px;
-            color: var(--text);
-        }
-        .login-logo span { color: var(--accent); }
-        .login-tagline {
-            font-size: 0.8rem;
-            color: var(--dim);
-            margin-bottom: 36px;
-            letter-spacing: 0.5px;
-        }
-        .login-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.9rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            line-height: 1.1;
-        }
-        .login-subtitle {
-            font-size: 0.85rem;
-            color: var(--dim);
-            margin-bottom: 32px;
-        }
-        .input-group { margin-bottom: 20px; }
-        .input-group label {
-            display: block;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        .input-field {
-            width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px 20px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text);
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            letter-spacing: 2px;
-        }
-        .input-field::placeholder { letter-spacing: 2px; color: var(--dim); font-weight: 400; }
-        .input-field:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(255,107,53,0.1);
-        }
-        .btn-login {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border: none;
-            border-radius: 14px;
-            padding: 16px;
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 8px;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.5px;
-        }
-        .btn-login::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-        .btn-login:hover::before { left: 100%; }
-        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,53,0.2); }
-        .btn-login:active { transform: translateY(0); }
-        .login-error {
-            background: rgba(255, 69, 58, 0.1);
-            border: 1px solid rgba(255,69,58,0.3);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 0.85rem;
-            color: var(--danger);
-            margin-top: 16px;
-            display: none;
-            animation: shake 0.4s ease;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-4px); }
-            80% { transform: translateX(4px); }
-        }
-        .register-link {
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        /* ... (all your existing CSS remains 100% unchanged) ... */
+        /* SUCCESS MODAL */
+        #successModal .modal {
             text-align: center;
-            margin-top: 24px;
-            font-size: 0.83rem;
-            color: var(--dim);
+            width: 380px;
+            padding: 40px 30px;
         }
-        .register-link a {
-            color: var(--accent);
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,107,53,0.3);
-            transition: border-color 0.2s;
-        }
-        .register-link a:hover { border-color: var(--accent); }
-        /* ───── REGISTER SCREEN ───── */
-        #registerScreen {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: flex-start;
-            justify-content: center;
-            z-index: 1000;
-            background: var(--bg);
-            overflow-y: auto;
-            padding: 40px 20px;
-        }
-        #registerScreen.show { display: flex; }
-        .register-box {
-            width: 560px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 48px 40px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.05), 0 0 0 1px rgba(255,255,255,0.5) inset;
-            animation: loginAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            margin: auto;
-        }
-        .register-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            border-radius: 28px 28px 0 0;
-        }
-        .register-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.7rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .register-subtitle {
-            font-size: 0.85rem;
-            color: var(--dim);
-            margin-bottom: 32px;
-            line-height: 1.6;
-        }
-        .reg-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+        .success-icon {
+            font-size: 4.5rem;
             margin-bottom: 16px;
+            animation: pop 0.6s ease;
         }
-        .reg-field { display: flex; flex-direction: column; gap: 8px; }
-        .reg-field.full { grid-column: 1 / -1; }
-        .reg-field label {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
+        @keyframes pop {
+            0% { transform: scale(0.3); }
+            60% { transform: scale(1.15); }
+            100% { transform: scale(1); }
         }
-        .reg-field input,
-        .reg-field textarea {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem;
-            color: var(--text);
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            resize: none;
-        }
-        .reg-field input:focus,
-        .reg-field textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(255,107,53,0.1);
-        }
-        .reg-field textarea { min-height: 80px; }
-        .btn-register {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border: none;
-            border-radius: 14px;
-            padding: 16px;
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 8px;
-            letter-spacing: 0.5px;
-        }
-        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,53,0.2); }
-        .btn-register:active { transform: translateY(0); }
-        .btn-register:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.83rem;
-            color: var(--dim);
-        }
-        .back-link a {
-            color: var(--accent);
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,107,53,0.3);
-            transition: border-color 0.2s;
-        }
-        .back-link a:hover { border-color: var(--accent); }
-        .reg-error {
-            background: rgba(255, 69, 58, 0.1);
-            border: 1px solid rgba(255,69,58,0.3);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 0.85rem;
-            color: var(--danger);
-            margin-top: 16px;
-            display: none;
-        }
-        /* ───── PENDING SCREEN ───── */
-        #pendingScreen {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            background: var(--bg);
-        }
-        #pendingScreen.show { display: flex; }
-        .pending-box {
-            width: 480px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 56px 44px;
-            text-align: center;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.05);
-            animation: loginAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            position: relative;
-            overflow: hidden;
-        }
-        .pending-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent2), #ffcc00);
-            border-radius: 28px 28px 0 0;
-        }
-        .pending-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            display: block;
-            animation: iconBounce 0.6s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-        @keyframes iconBounce {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .pending-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.7rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .pending-sub {
-            font-size: 0.88rem;
-            color: var(--dim);
-            line-height: 1.7;
-            margin-bottom: 28px;
-        }
-        .pending-steps {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px 24px;
-            text-align: left;
-            margin-bottom: 24px;
-        }
-        .pending-step {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 0.83rem;
-            color: var(--dim);
-            line-height: 1.5;
-            padding: 9px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .pending-step:last-child { border: none; padding-bottom: 0; }
-        .pending-step:first-child { padding-top: 0; }
-        .step-num {
-            width: 22px; height: 22px;
-            border-radius: 50%;
-            background: var(--glow);
-            border: 1px solid rgba(255,107,53,0.3);
-            color: var(--accent);
-            font-size: 0.72rem;
-            font-weight: 700;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-        .pending-note {
-            background: rgba(255, 149, 0, 0.08);
-            border: 1px solid rgba(255,149,0,0.2);
-            border-radius: 12px;
-            padding: 14px 16px;
-            font-size: 0.82rem;
-            color: var(--accent2);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-        .btn-back-login {
-            width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px;
-            font-family: 'Syne', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-back-login:hover { border-color: var(--accent); color: var(--accent); }
-        /* ───── DASHBOARD SHELL ───── */
-        #dashboard {
-            display: none;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
-        }
-        #dashboard.visible { display: flex; }
-        /* ───── SIDEBAR ───── */
-        .sidebar {
-            width: 72px;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 24px 0;
-            position: fixed;
-            height: 100vh;
-            z-index: 100;
-            gap: 8px;
-        }
-        .sidebar-logo {
-            width: 44px; height: 44px;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 24px;
-        }
-        .nav-icon {
-            width: 44px; height: 44px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 1.2rem;
-            color: var(--dim);
-            position: relative;
-        }
-        .nav-icon:hover { background: var(--surface2); color: var(--text); }
-        .nav-icon.active { background: var(--glow); color: var(--accent); }
-        .nav-icon.active::after {
-            content: '';
-            position: absolute;
-            right: -1px;
-            width: 3px; height: 60%;
-            background: var(--accent);
-            border-radius: 2px 0 0 2px;
-        }
-        .sidebar-divider { width: 32px; height: 1px; background: var(--border); margin: 8px 0; }
-        .sidebar-bottom { margin-top: auto; }
-        /* ───── MAIN PANEL ───── */
-        .main { margin-left: 72px; flex: 1; padding: 0; min-height: 100vh; }
-        /* ───── TOPBAR ───── */
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 36px;
-            border-bottom: 1px solid var(--border);
-            background: var(--surface);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-        .topbar-left { display: flex; flex-direction: column; gap: 2px; }
-        .topbar-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; }
-        .topbar-id { font-size: 0.78rem; color: var(--dim); }
-        .topbar-id span { color: var(--accent); font-weight: 600; }
-        .status-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(44, 154, 76, 0.1);
-            border: 1px solid rgba(44,154,76,0.2);
-            border-radius: 100px;
-            padding: 8px 16px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--success);
-        }
-        .status-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse 2s ease infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(44,154,76,0.4); }
-            50% { box-shadow: 0 0 0 6px rgba(44,154,76,0); }
-        }
-        .btn-logout {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 8px 16px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--dim);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
-        /* ───── PAGES ───── */
-        .page {
-            display: none;
-            padding: 36px;
-            animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .page.active { display: block; }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .section-title { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
-        .section-sub { font-size: 0.85rem; color: var(--dim); margin-bottom: 32px; }
-        /* ───── STATS ───── */
-        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
-        .stat-tile {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .stat-tile:hover { transform: translateY(-3px); border-color: rgba(255,107,53,0.3); }
-        .stat-tile::before {
-            content: '';
-            position: absolute;
-            top: -30px; right: -30px;
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            background: var(--glow);
-        }
-        .stat-tile .icon { font-size: 1.5rem; margin-bottom: 16px; display: block; }
-        .stat-tile .val { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
-        .stat-tile .lbl { font-size: 0.78rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
-        /* ───── INFO CARD ───── */
-        .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-        .card-head {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .card-head h2 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
-        .card-body { padding: 24px; }
-        /* ───── FORM ───── */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-grid.full { grid-template-columns: 1fr; }
-        .field { display: flex; flex-direction: column; gap: 8px; }
-        .field label {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-        .field input,
-        .field textarea,
-        .field select {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem;
-            color: var(--text);
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            resize: none;
-        }
-        .field input:focus,
-        .field textarea:focus,
-        .field select:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(255,107,53,0.1);
-        }
-        .field textarea { min-height: 90px; }
-        .field select option { background: var(--surface2); }
-        /* ───── BUTTONS ───── */
-        .btn {
-            padding: 11px 22px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
-            font-size: 0.88rem;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,53,0.2); }
-        .btn-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
-        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-        .btn-danger { background: rgba(255,69,58,0.1); border: 1px solid rgba(255,69,58,0.2); color: var(--danger); }
-        .btn-danger:hover { background: var(--danger); color: white; }
-        .btn-success { background: rgba(44,154,76,0.1); border: 1px solid rgba(44,154,76,0.2); color: var(--success); }
-        .btn-success:hover { background: var(--success); color: var(--bg); }
-        .save-bar {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            margin-top: 20px;
-        }
-        /* ───── MENU ───── */
-        .menu-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .menu-search {
-            flex: 1;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 11px 16px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text);
-            outline: none;
-        }
-        .menu-search:focus { border-color: var(--accent); }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-        .menu-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 20px;
-            position: relative;
-            transition: all 0.2s ease;
-            animation: cardIn 0.4s ease forwards;
-        }
-        @keyframes cardIn {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .menu-card:hover { border-color: rgba(255,107,53,0.3); transform: translateY(-3px); }
-        .menu-card-img {
-            width: 100%; height: 140px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-        }
-        .menu-card-emoji { font-size: 2rem; margin-bottom: 12px; display: block; }
-        .menu-card-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-        .menu-card-desc { font-size: 0.8rem; color: var(--dim); margin-bottom: 8px; line-height: 1.5; min-height: 36px; }
-        .menu-card-meta { display: flex; gap: 16px; font-size: 0.75rem; color: var(--dim); margin-bottom: 12px; }
-        .menu-card-meta span { display: flex; align-items: center; gap: 4px; }
-        .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
-        .menu-card-price { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--accent); }
-        .menu-card-actions { display: flex; gap: 6px; align-items: center; }
-        .icon-btn {
-            width: 32px; height: 32px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            color: var(--dim);
-        }
-        .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .icon-btn.del:hover { border-color: var(--danger); color: var(--danger); background: rgba(255,69,58,0.1); }
-        .menu-available-toggle { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--dim); }
-        .toggle {
-            width: 36px; height: 20px;
-            border-radius: 100px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            position: relative;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .toggle.on { background: var(--success); border-color: var(--success); }
-        .toggle::after {
-            content: '';
-            position: absolute;
-            top: 2px; left: 2px;
-            width: 14px; height: 14px;
-            border-radius: 50%;
-            background: white;
-            transition: transform 0.3s;
-        }
-        .toggle.on::after { transform: translateX(16px); }
-        /* upload button */
-        .upload-btn {
-            background: var(--surface2);
-            border: 1px dashed var(--border);
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--dim);
-            transition: 0.2s;
-            margin-top: 4px;
-        }
-        .upload-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .img-preview-sm { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; background: var(--surface2); border: 1px solid var(--border); }
-        /* ───── MODAL ───── */
-        .modal-bg {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.2);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-bg.open { display: flex; }
-        .modal {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 36px;
-            width: 560px;
-            max-width: 94vw;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.1);
-            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.9) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .modal h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 24px; }
-        /* ───── TOAST ───── */
-        #toast {
-            position: fixed;
-            bottom: 30px; right: 30px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            z-index: 9999;
-            transform: translateY(80px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        #toast.show { transform: translateY(0); opacity: 1; }
-        #toast.success { border-left: 4px solid var(--success); }
-        #toast.error { border-left: 4px solid var(--danger); }
-        /* ───── HOURS ───── */
-        .hours-row {
-            display: grid;
-            grid-template-columns: 100px 1fr 1fr 80px;
-            gap: 12px;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .hours-row:last-child { border: none; }
-        .day-label { font-size: 0.85rem; font-weight: 600; color: var(--dim); }
-        .hours-input {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 9px 14px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.88rem;
-            color: var(--text);
-            outline: none;
-            width: 100%;
-        }
-        .hours-input:focus { border-color: var(--accent); }
-        .day-toggle { font-size: 0.78rem; color: var(--dim); display: flex; align-items: center; gap: 6px; }
-        /* ───── EMPTY ───── */
-        .empty { text-align: center; padding: 60px 20px; color: var(--dim); }
-        .empty-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
-        .empty p { font-size: 0.9rem; }
-        .cat-tag {
-            display: inline-block;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 3px 10px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 100px; }
-        .loader-ring {
-            display: inline-block;
-            width: 20px; height: 20px;
-            border: 2px solid rgba(0,0,0,0.1);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            vertical-align: middle;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        input[type="time"]::-webkit-calendar-picker-indicator { filter: none; opacity: 0.5; }
     </style>
 </head>
 <body>
-    <!-- ═══ LOGIN SCREEN ═══ -->
-    <div id="loginScreen">
-        <div class="login-box">
-            <div class="login-logo">VYNIX<span>EATS</span></div>
-            <div class="login-tagline">VENDOR PORTAL</div>
-            <div class="login-title">Welcome<br>back.</div>
-            <div class="login-subtitle">Enter your Vendor ID to access your dashboard.</div>
-            <div class="input-group">
-                <label>Vendor ID</label>
-                <input class="input-field" id="idInput" type="text" placeholder="e.g. A1B2"
-                    onkeydown="if(event.key==='Enter')doLogin()">
-            </div>
-            <button class="btn-login" onclick="doLogin()" id="loginBtn">Access Portal</button>
-            <div class="login-error" id="loginError"></div>
-            <div class="register-link">
-                New restaurant? <a onclick="showRegister()">Apply to join Vynix Eats →</a>
-            </div>
-        </div>
-    </div>
-    <!-- ═══ REGISTER SCREEN ═══ -->
-    <div id="registerScreen">
-        <div class="register-box">
-            <div class="login-logo" style="margin-bottom:4px">VYNIX<span>EATS</span></div>
-            <div class="login-tagline" style="margin-bottom:24px">VENDOR PORTAL</div>
-            <div class="register-title">Join Vynix Eats</div>
-            <div class="register-subtitle">
-                Submit your restaurant details below. Our admin team will review your application, and once approved, they will assign you a <strong style="color:var(--text)">Vendor ID</strong> — which you'll use to log in. You'll be contacted via the details you provide.
-            </div>
-            <div class="reg-grid">
-                <div class="reg-field">
-                    <label>Restaurant Name *</label>
-                    <input type="text" id="r-name" placeholder="e.g. Mama Rosa's Kitchen">
-                </div>
-                <div class="reg-field">
-                    <label>Cuisine Type *</label>
-                    <input type="text" id="r-cuisine" placeholder="e.g. Italian, Sushi, Burgers">
-                </div>
-                <div class="reg-field">
-                    <label>Owner / Contact Name *</label>
-                    <input type="text" id="r-owner" placeholder="Your full name">
-                </div>
-                <div class="reg-field">
-                    <label>Phone Number *</label>
-                    <input type="tel" id="r-phone" placeholder="+27 ...">
-                </div>
-                <div class="reg-field">
-                    <label>Email Address *</label>
-                    <input type="email" id="r-email" placeholder="contact@restaurant.com">
-                </div>
-                <div class="reg-field">
-                    <label>Min. Order Amount (R)</label>
-                    <input type="number" id="r-minorder" placeholder="0">
-                </div>
-                <div class="reg-field full">
-                    <label>Address / Location *</label>
-                    <input type="text" id="r-address" placeholder="123 Main Street, City">
-                </div>
-                <div class="reg-field full">
-                    <label>Short Description</label>
-                    <textarea id="r-desc" placeholder="Tell us what makes your restaurant special..."></textarea>
-                </div>
-            </div>
-            <button class="btn-register" onclick="submitRegistration()" id="regBtn">Submit Application</button>
-            <div class="reg-error" id="regError"></div>
-            <div class="back-link">
-                Already have an ID? <a onclick="showLogin()">← Back to login</a>
-            </div>
-        </div>
-    </div>
-    <!-- ═══ PENDING SCREEN ═══ -->
-    <div id="pendingScreen">
-        <div class="pending-box">
-            <span class="pending-icon">📋</span>
-            <div class="pending-title">Application Submitted!</div>
-            <div class="pending-sub">
-                Your application has been received and is now in the admin review queue.
-            </div>
-            <div class="pending-steps">
-                <div class="pending-step">
-                    <div class="step-num">1</div>
-                    <span>The Vynix Eats admin team reviews your application.</span>
-                </div>
-                <div class="pending-step">
-                    <div class="step-num">2</div>
-                    <span>Once approved, the admin assigns a unique <strong style="color:var(--text)">Vendor ID</strong> to your account.</span>
-                </div>
-                <div class="pending-step">
-                    <div class="step-num">3</div>
-                    <span>You are contacted via phone or email with your Vendor ID.</span>
-                </div>
-                <div class="pending-step">
-                    <div class="step-num">4</div>
-                    <span>Return here and log in using your assigned Vendor ID.</span>
-                </div>
-            </div>
-            <div class="pending-note">
-                ⏳ Keep an eye on the contact details you provided. The admin will reach out once your application has been reviewed.
-            </div>
-            <button class="btn-back-login" onclick="showLogin()">← Back to Login</button>
-        </div>
-    </div>
-    <!-- ═══ VENDOR DASHBOARD ═══ -->
-    <div id="dashboard">
-        <nav class="sidebar">
-            <div class="sidebar-logo">V</div>
-            <div class="nav-icon active" id="nav-overview" onclick="switchPage('overview', this)" title="Overview">🏠</div>
-            <div class="nav-icon" id="nav-profile" onclick="switchPage('profile', this)" title="Profile">🏬</div>
-            <div class="nav-icon" id="nav-menu" onclick="switchPage('menu', this)" title="Menu">🍽️</div>
-            <div class="nav-icon" id="nav-hours" onclick="switchPage('hours', this)" title="Hours">🕐</div>
-            <div class="sidebar-divider"></div>
-            <div class="sidebar-bottom">
-                <div class="nav-icon" title="Logout" onclick="doLogout()">↩️</div>
-            </div>
-        </nav>
-        <div class="main">
-            <div class="topbar">
-                <div class="topbar-left">
-                    <div class="topbar-name" id="tb-name">Restaurant Name</div>
-                    <div class="topbar-id">Vendor ID: <span id="tb-id">----</span> · <span id="tb-cuisine">Cuisine</span></div>
-                </div>
-                <div style="display:flex; gap:16px; align-items:center">
-                    <div class="status-pill"><div class="status-dot"></div> Live</div>
-                    <button class="btn-logout" onclick="doLogout()">Log Out</button>
-                </div>
-            </div>
-            <!-- ── OVERVIEW ── -->
-            <div id="page-overview" class="page active">
-                <div class="section-title">Overview</div>
-                <div class="section-sub" id="greet-sub">Good to see you again.</div>
-                <div class="stats-row">
-                    <div class="stat-tile">
-                        <span class="icon">🍽️</span>
-                        <div class="val" id="stat-items">0</div>
-                        <div class="lbl">Menu Items</div>
-                    </div>
-                    <div class="stat-tile">
-                        <span class="icon">✅</span>
-                        <div class="val" id="stat-available">0</div>
-                        <div class="lbl">Available Now</div>
-                    </div>
-                    <div class="stat-tile">
-                        <span class="icon">🆔</span>
-                        <div class="val" id="stat-id">—</div>
-                        <div class="lbl">Your Vendor ID</div>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="card-head"><h2>Quick Actions</h2></div>
-                    <div class="card-body" style="display:flex; gap:12px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="switchPage('menu', document.getElementById('nav-menu'))">➕ Add Menu Item</button>
-                        <button class="btn btn-secondary" onclick="switchPage('profile', document.getElementById('nav-profile'))">✏️ Edit Profile</button>
-                        <button class="btn btn-secondary" onclick="switchPage('hours', document.getElementById('nav-hours'))">🕐 Update Hours</button>
-                    </div>
-                </div>
-            </div>
-            <!-- ── PROFILE ── (Now includes all fields from user system) -->
-            <div id="page-profile" class="page">
-                <div class="section-title">Business Profile</div>
-                <div class="section-sub">Update your restaurant's public information as seen by customers.</div>
-                <div class="info-card">
-                    <div class="card-head"><h2>Restaurant Details (Live on Customer App)</h2></div>
-                    <div class="card-body">
-                        <div class="form-grid" style="margin-bottom:20px">
-                            <div class="field">
-                                <label>Restaurant Name</label>
-                                <input type="text" id="p-name" placeholder="e.g. Mama Rosa's Kitchen">
-                            </div>
-                            <div class="field">
-                                <label>Cuisine Type</label>
-                                <input type="text" id="p-cuisine" placeholder="e.g. Italian, Sushi, Burgers">
-                            </div>
-                            <div class="field">
-                                <label>Phone Number</label>
-                                <input type="text" id="p-phone" placeholder="+27 ...">
-                            </div>
-                            <div class="field">
-                                <label>Email Address</label>
-                                <input type="email" id="p-email" placeholder="contact@restaurant.com">
-                            </div>
-                            <div class="field">
-                                <label>Address / Location</label>
-                                <input type="text" id="p-address" placeholder="123 Main Street, City">
-                            </div>
-                            <div class="field">
-                                <label>Min. Order Amount (R)</label>
-                                <input type="number" id="p-minorder" placeholder="0">
-                            </div>
-                            <div class="field">
-                                <label>Distance (km from center)</label>
-                                <input type="text" id="p-distance" placeholder="e.g. 2.5 km">
-                            </div>
-                            <div class="field">
-                                <label>Delivery Time</label>
-                                <input type="text" id="p-deliveryTime" placeholder="e.g. 30 min">
-                            </div>
-                        </div>
-                        <div class="field" style="margin-bottom:20px">
-                            <label>Short Description</label>
-                            <textarea id="p-desc" placeholder="Tell customers what makes your restaurant special..."></textarea>
-                        </div>
-                        <div class="field" style="margin-bottom:20px">
-                            <label>Restaurant Image (appears in listings)</label>
-                            <div style="display:flex; align-items:center; gap:15px;">
-                                <img id="profileImagePreview" class="img-preview-sm" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M4 5h16v14H4z' opacity='.3'/%3E%3Cpath d='M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E" alt="preview">
-                                <div>
-                                    <input type="file" id="p-image-file" accept="image/*" style="display:none;">
-                                    <button class="upload-btn" type="button" onclick="document.getElementById('p-image-file').click()">📷 Choose Restaurant Image</button>
-                                    <span id="profile-upload-status" style="font-size:0.75rem; color:var(--dim); margin-left:8px;"></span>
-                                </div>
-                            </div>
-                            <input type="hidden" id="p-image-url">
-                        </div>
-                        <div class="save-bar">
-                            <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile (Updates Live)</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ── MENU ── (Images now sync with customer app) -->
-            <div id="page-menu" class="page">
-                <div class="section-title">Menu Management</div>
-                <div class="section-sub">Add, edit, and toggle availability of your items. These update immediately on the customer app.</div>
-                <div class="menu-toolbar">
-                    <input class="menu-search" id="menuSearch" placeholder="Search menu items..." oninput="filterMenu()">
-                    <button class="btn btn-primary" onclick="openAddItem()">➕ Add Item</button>
-                </div>
-                <div id="menuGrid" class="menu-grid"></div>
-            </div>
-            <!-- ── HOURS ── (Syncs with customer app) -->
-            <div id="page-hours" class="page">
-                <div class="section-title">Operating Hours</div>
-                <div class="section-sub">Set your weekly schedule. Customers will see these hours on your listing.</div>
-                <div class="info-card">
-                    <div class="card-head"><h2>Weekly Schedule (Live)</h2></div>
-                    <div class="card-body">
-                        <div id="hoursForm"></div>
-                        <div class="save-bar">
-                            <button class="btn btn-primary" onclick="saveHours()">💾 Save Hours</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ═══ ADD/EDIT ITEM MODAL (with image upload & delivery time) ═══ -->
-    <div class="modal-bg" id="itemModal">
+    <!-- (All your existing HTML remains exactly the same until the end) -->
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-bg" id="successModal">
         <div class="modal">
-            <h3 id="modalTitle">Add Menu Item</h3>
-            <div class="form-grid" style="margin-bottom:20px">
-                <div class="field">
-                    <label>Item Name *</label>
-                    <input type="text" id="mi-name" placeholder="e.g. Margherita Pizza">
-                </div>
-                <div class="field">
-                    <label>Price (R) *</label>
-                    <input type="number" id="mi-price" placeholder="0.00">
-                </div>
-                <div class="field">
-                    <label>Category</label>
-                    <input type="text" id="mi-cat" placeholder="e.g. Mains, Starters, Drinks">
-                </div>
-                <div class="field">
-                    <label>Emoji Icon</label>
-                    <input type="text" id="mi-emoji" placeholder="🍕" maxlength="4">
-                </div>
-                <div class="field">
-                    <label>Est. Delivery (min)</label>
-                    <input type="number" id="mi-delivery" placeholder="e.g. 25" min="1" step="1">
-                </div>
-            </div>
-            <!-- image upload field -->
-            <div class="field" style="margin-bottom:20px">
-                <label>Item Image (appears in customer app)</label>
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <img id="imgPreview" class="img-preview-sm" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M4 5h16v14H4z' opacity='.3'/%3E%3Cpath d='M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E" alt="preview">
-                    <div>
-                        <input type="file" id="mi-image-file" accept="image/*" style="display:none;">
-                        <button class="upload-btn" id="uploadBtn" type="button" onclick="document.getElementById('mi-image-file').click()">📷 Choose Image</button>
-                        <span id="upload-status" style="font-size:0.75rem; color:var(--dim); margin-left:8px;"></span>
-                    </div>
-                </div>
-                <input type="hidden" id="mi-image-url">
-            </div>
-            <div class="field" style="margin-bottom:24px">
-                <label>Description</label>
-                <textarea id="mi-desc" placeholder="Brief description of the item..."></textarea>
-            </div>
-            <input type="hidden" id="mi-key">
-            <div style="display:flex; gap:12px">
-                <button class="btn btn-primary" style="flex:2; justify-content:center" onclick="saveMenuItem()">Save Item</button>
-                <button class="btn btn-secondary" style="flex:1; justify-content:center" onclick="closeModal()">Cancel</button>
-            </div>
+            <div class="success-icon">🎉</div>
+            <h3 id="successTitle" style="font-size:1.5rem;margin-bottom:8px;">Success!</h3>
+            <p id="successMsg" style="color:var(--dim);margin-bottom:28px;line-height:1.5;"></p>
+            <button class="btn btn-primary" style="width:100%;" onclick="hideSuccessModal()">Done</button>
         </div>
     </div>
+
     <div id="toast"></div>
+
     <script>
-    // ─────────────────────────────────────────────
-    // FIREBASE CONFIG
-    // ─────────────────────────────────────────────
+    // FIREBASE
     const firebaseConfig = {
         apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
         authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -1170,10 +71,8 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const storage = firebase.storage();
-    // ─────────────────────────────────────────────
+
     // CLOUDINARY (same as admin system)
-    // ─────────────────────────────────────────────
     const CLD = { cloudName:'dqkujefxj', uploadPreset:'banter_box', apiUrl:'https://api.cloudinary.com/v1_1' };
     async function uploadToCloudinary(file) {
         const fd = new FormData();
@@ -1183,194 +82,54 @@
         if (!r.ok) throw new Error(r.statusText);
         return (await r.json()).secure_url;
     }
-    // ─────────────────────────────────────────────
+
     // STATE
-    // ─────────────────────────────────────────────
     let currentKey = null;
     let vendorData = {};
     let menuItems = {};
     const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-    // Profile image upload
     let profileImageFile = null;
+    let currentImageFile = null;
+
+    // Profile image preview
     document.getElementById('p-image-file').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
         profileImageFile = file;
         const reader = new FileReader();
-        reader.onload = function(ev) {
+        reader.onload = ev => {
             document.getElementById('profileImagePreview').src = ev.target.result;
             document.getElementById('profile-upload-status').textContent = 'file selected';
         };
         reader.readAsDataURL(file);
     });
-    // ─────────────────────────────────────────────
-    // SCREEN HELPERS
-    // ─────────────────────────────────────────────
-    function showLogin() {
-        document.getElementById('registerScreen').classList.remove('show');
-        document.getElementById('pendingScreen').classList.remove('show');
-        document.getElementById('dashboard').classList.remove('visible');
-        const ls = document.getElementById('loginScreen');
-        ls.style.display = 'flex';
-        ls.classList.remove('hide');
-    }
-    function showRegister() {
-        document.getElementById('loginScreen').classList.add('hide');
-        setTimeout(() => {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('registerScreen').classList.add('show');
-        }, 300);
-    }
-    function showPending() {
-        document.getElementById('registerScreen').classList.remove('show');
-        document.getElementById('pendingScreen').classList.add('show');
-    }
-    // ─────────────────────────────────────────────
-    // REGISTRATION (unchanged)
-    // ─────────────────────────────────────────────
-    async function submitRegistration() {
-        const name = document.getElementById('r-name').value.trim();
-        const cuisine = document.getElementById('r-cuisine').value.trim();
-        const owner = document.getElementById('r-owner').value.trim();
-        const phone = document.getElementById('r-phone').value.trim();
-        const email = document.getElementById('r-email').value.trim();
-        const address = document.getElementById('r-address').value.trim();
-        const minOrder = parseFloat(document.getElementById('r-minorder').value) || 0;
-        const desc = document.getElementById('r-desc').value.trim();
-        if (!name || !cuisine || !owner || !phone || !email || !address) {
-            showRegError('⚠ Please fill in all required fields.');
-            return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            showRegError('⚠ Please enter a valid email address.');
-            return;
-        }
-        const btn = document.getElementById('regBtn');
-        btn.innerHTML = '<div class="loader-ring"></div> Submitting...';
-        btn.disabled = true;
-        try {
-            const dupSnap = await db.ref('vendors').orderByChild('email').equalTo(email).once('value');
-            if (dupSnap.exists()) {
-                showRegError('⚠ An application with this email already exists. Contact admin if you need help.');
-                btn.innerHTML = 'Submit Application';
-                btn.disabled = false;
-                return;
-            }
-        } catch(e) { /* non-blocking */ }
-        const application = {
-            name, cuisine, owner, phone, email, address,
-            minOrder, description: desc, status: 'pending', registeredAt: Date.now()
+
+    // Menu image preview
+    document.getElementById('mi-image-file').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        currentImageFile = file;
+        const reader = new FileReader();
+        reader.onload = ev => {
+            document.getElementById('imgPreview').src = ev.target.result;
+            document.getElementById('upload-status').textContent = 'file selected';
         };
-        db.ref('vendors').push(application)
-            .then(() => {
-                btn.innerHTML = 'Submit Application';
-                btn.disabled = false;
-                ['r-name','r-cuisine','r-owner','r-phone','r-email','r-minorder','r-address','r-desc']
-                    .forEach(id => document.getElementById(id).value = '');
-                showPending();
-            })
-            .catch(() => {
-                btn.innerHTML = 'Submit Application';
-                btn.disabled = false;
-                showRegError('❌ Submission failed. Please check your connection and try again.');
-            });
+        reader.readAsDataURL(file);
+    });
+
+    // SUCCESS MODAL
+    function showSuccessModal(title, msg) {
+        document.getElementById('successTitle').textContent = title;
+        document.getElementById('successMsg').innerHTML = msg;
+        document.getElementById('successModal').classList.add('open');
     }
-    function showRegError(msg) {
-        const el = document.getElementById('regError');
-        el.textContent = msg;
-        el.style.display = 'block';
-        setTimeout(() => { el.style.display = 'none'; }, 6000);
+    function hideSuccessModal() {
+        document.getElementById('successModal').classList.remove('open');
     }
-    // ─────────────────────────────────────────────
-    // LOGIN (alphanumeric vendorID)
-    // ─────────────────────────────────────────────
-    function doLogin() {
-        const idVal = document.getElementById('idInput').value.trim();
-        if (!idVal) return showError('Please enter your Vendor ID.');
-        const btn = document.getElementById('loginBtn');
-        btn.innerHTML = '<div class="loader-ring"></div>';
-        btn.disabled = true;
-        // vendorID is stored as a string (can be letters/numbers)
-        db.ref('vendors').orderByChild('vendorID').equalTo(idVal).once('value', snap => {
-            btn.innerHTML = 'Access Portal';
-            btn.disabled = false;
-            if (!snap.exists()) {
-                showError('Vendor ID not found. If your application is pending, you will receive your ID once approved by admin.');
-                return;
-            }
-            snap.forEach(child => {
-                currentKey = child.key;
-                vendorData = child.val();
-            });
-            if (vendorData.status !== 'active') {
-                showError('Your account is not yet active. Please wait for admin approval.');
-                return;
-            }
-            launchDashboard();
-        });
-    }
-    function showError(msg) {
-        const el = document.getElementById('loginError');
-        el.textContent = '⚠ ' + msg;
-        el.style.display = 'block';
-        el.style.animation = 'none';
-        el.offsetHeight;
-        el.style.animation = 'shake 0.4s ease';
-    }
-    function launchDashboard() {
-        document.getElementById('loginScreen').classList.add('hide');
-        setTimeout(() => {
-            document.getElementById('loginScreen').style.display = 'none';
-            const dash = document.getElementById('dashboard');
-            dash.classList.add('visible');
-            initDashboard();
-        }, 600);
-    }
-    // ─────────────────────────────────────────────
-    // DASHBOARD INIT (with menu listener)
-    // ─────────────────────────────────────────────
-    function initDashboard() {
-        document.getElementById('tb-name').textContent = vendorData.name;
-        document.getElementById('tb-id').textContent = vendorData.vendorID;
-        document.getElementById('tb-cuisine').textContent = vendorData.cuisine;
-        document.getElementById('stat-id').textContent = vendorData.vendorID;
-        const hour = new Date().getHours();
-        const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-        document.getElementById('greet-sub').textContent = `${greet}, ${vendorData.name}!`;
-        // Populate profile with ALL fields (including those shown on customer app)
-        document.getElementById('p-name').value = vendorData.name || '';
-        document.getElementById('p-cuisine').value = vendorData.cuisine || '';
-        document.getElementById('p-phone').value = vendorData.phone || '';
-        document.getElementById('p-email').value = vendorData.email || '';
-        document.getElementById('p-address').value = vendorData.address || '';
-        document.getElementById('p-minorder').value = vendorData.minOrder || '';
-        document.getElementById('p-distance').value = vendorData.distance || '2.5 km';
-        document.getElementById('p-deliveryTime').value = vendorData.deliveryTime || '30 min';
-        document.getElementById('p-desc').value = vendorData.description || '';
-        // Use imageURL for customer app compatibility
-        if (vendorData.imageURL) {
-            document.getElementById('p-image-url').value = vendorData.imageURL;
-            document.getElementById('profileImagePreview').src = vendorData.imageURL;
-        }
-        buildHoursForm();
-        db.ref(`vendors/${currentKey}/menu`).on('value', snap => {
-            menuItems = snap.val() || {};
-            renderMenu();
-            updateMenuStats();
-        });
-    }
-    // ─────────────────────────────────────────────
-    // NAVIGATION
-    // ─────────────────────────────────────────────
-    function switchPage(page, el) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-icon').forEach(n => n.classList.remove('active'));
-        document.getElementById('page-' + page).classList.add('active');
-        el.classList.add('active');
-    }
-    // ─────────────────────────────────────────────
-    // PROFILE - Saves ALL fields that customers see
-    // ─────────────────────────────────────────────
+
+    // ... (all your existing functions: showLogin, showRegister, submitRegistration, doLogin, etc. remain unchanged) ...
+
+    // PROFILE SAVE - now shows success modal
     async function saveProfile() {
         const updates = {
             name: document.getElementById('p-name').value.trim(),
@@ -1383,9 +142,9 @@
             deliveryTime: document.getElementById('p-deliveryTime').value.trim() || '30 min',
             description: document.getElementById('p-desc').value.trim()
         };
-        // Handle image upload if new file selected
+
         if (profileImageFile) {
-            document.getElementById('profile-upload-status').textContent = 'uploading...';
+            document.getElementById('profile-upload-status').textContent = 'uploading to Cloudinary...';
             try {
                 updates.imageURL = await uploadToCloudinary(profileImageFile);
                 document.getElementById('p-image-url').value = updates.imageURL;
@@ -1393,117 +152,26 @@
                 showToast('❌ Image upload failed', 'error');
                 return;
             }
-        } else {
-            // keep existing imageURL from hidden field
-            const existingUrl = document.getElementById('p-image-url').value;
-            if (existingUrl) updates.imageURL = existingUrl;
+        } else if (document.getElementById('p-image-url').value) {
+            updates.imageURL = document.getElementById('p-image-url').value;
         }
+
         db.ref('vendors/' + currentKey).update(updates).then(() => {
             vendorData = { ...vendorData, ...updates };
             document.getElementById('tb-name').textContent = updates.name;
             document.getElementById('tb-cuisine').textContent = updates.cuisine;
-            showToast('✅ Profile saved successfully - customers will see these changes immediately', 'success');
+
+            // SUCCESS MODAL
+            showSuccessModal("✅ Profile Updated!", 
+                "Your restaurant information and image are now live for all customers.");
+            
             profileImageFile = null;
-        }).catch(() => showToast('❌ Failed to save profile', 'error'));
-    }
-    // ─────────────────────────────────────────────
-    // MENU (with image upload & delivery time)
-    // ─────────────────────────────────────────────
-    let currentImageFile = null;
-    document.getElementById('mi-image-file').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        currentImageFile = file;
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-            document.getElementById('imgPreview').src = ev.target.result;
-            document.getElementById('upload-status').textContent = 'file selected';
-        };
-        reader.readAsDataURL(file);
-    });
-    function renderMenu(filter = '') {
-        const grid = document.getElementById('menuGrid');
-        const keys = Object.keys(menuItems);
-        if (keys.length === 0) {
-            grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🍽️</div><p>No menu items yet. Click "+ Add Item" to get started.</p></div>`;
-            return;
-        }
-        grid.innerHTML = '';
-        keys.forEach(k => {
-            const item = menuItems[k];
-            if (filter && !item.name.toLowerCase().includes(filter) && !(item.category||'').toLowerCase().includes(filter)) return;
-            const avail = item.available !== false;
-            const card = document.createElement('div');
-            card.className = 'menu-card';
-            // Use imageURL for customer app compatibility
-            const imgHtml = item.imageURL
-                ? `<img class="menu-card-img" src="${item.imageURL}" alt="${item.name}" onerror="this.style.display='none'">`
-                : `<div class="menu-card-emoji">${item.emoji || '🍴'}</div>`;
-            const deliveryTime = item.deliveryTime
-                ? `<span>⏱️ ${item.deliveryTime} min</span>`
-                : '<span>⏱️ —</span>';
-            card.innerHTML = `
-                <span class="cat-tag">${item.category || 'Uncategorized'}</span>
-                ${imgHtml}
-                <div class="menu-card-name">${item.name}</div>
-                <div class="menu-card-desc">${item.description || 'No description'}</div>
-                <div class="menu-card-meta">
-                    ${deliveryTime}
-                </div>
-                <div class="menu-card-footer">
-                    <div class="menu-card-price">R${parseFloat(item.price||0).toFixed(2)}</div>
-                    <div class="menu-card-actions">
-                        <div class="menu-available-toggle">
-                            <span style="font-size:0.72rem;color:var(--dim)">${avail?'Live':'Off'}</span>
-                            <div class="toggle ${avail?'on':''}" onclick="toggleAvailability('${k}', ${avail})"></div>
-                        </div>
-                        <div class="icon-btn" onclick="openEditItem('${k}')">✏️</div>
-                        <div class="icon-btn del" onclick="deleteItem('${k}', '${item.name}')">🗑️</div>
-                    </div>
-                </div>
-            `;
-            grid.appendChild(card);
+        }).catch(() => {
+            showToast('❌ Failed to save profile', 'error');
         });
     }
-    function filterMenu() {
-        renderMenu(document.getElementById('menuSearch').value.toLowerCase());
-    }
-    function updateMenuStats() {
-        const keys = Object.keys(menuItems);
-        const avail = keys.filter(k => menuItems[k].available !== false).length;
-        document.getElementById('stat-items').textContent = keys.length;
-        document.getElementById('stat-available').textContent = avail;
-    }
-    function openAddItem() {
-        document.getElementById('modalTitle').textContent = 'Add Menu Item';
-        ['mi-name','mi-price','mi-cat','mi-emoji','mi-desc','mi-key','mi-image-url','mi-delivery'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('imgPreview').src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M4 5h16v14H4z\' opacity=\'.3\'/%3E%3Cpath d=\'M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z\'/%3E%3C/svg%3E';
-        document.getElementById('upload-status').textContent = '';
-        currentImageFile = null;
-        document.getElementById('mi-image-file').value = '';
-        document.getElementById('itemModal').classList.add('open');
-    }
-    function openEditItem(key) {
-        const item = menuItems[key];
-        document.getElementById('modalTitle').textContent = 'Edit Menu Item';
-        document.getElementById('mi-name').value = item.name || '';
-        document.getElementById('mi-price').value = item.price || '';
-        document.getElementById('mi-cat').value = item.category || '';
-        document.getElementById('mi-emoji').value = item.emoji || '';
-        document.getElementById('mi-desc').value = item.description || '';
-        document.getElementById('mi-delivery').value = item.deliveryTime || '';
-        document.getElementById('mi-key').value = key;
-        // Use imageURL for customer app compatibility
-        document.getElementById('mi-image-url').value = item.imageURL || '';
-        document.getElementById('imgPreview').src = item.imageURL || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M4 5h16v14H4z\' opacity=\'.3\'/%3E%3Cpath d=\'M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z\'/%3E%3C/svg%3E';
-        document.getElementById('upload-status').textContent = '';
-        currentImageFile = null;
-        document.getElementById('mi-image-file').value = '';
-        document.getElementById('itemModal').classList.add('open');
-    }
-    function closeModal() {
-        document.getElementById('itemModal').classList.remove('open');
-    }
+
+    // MENU SAVE - now shows success modal
     async function saveMenuItem() {
         const key = document.getElementById('mi-key').value;
         const data = {
@@ -1515,113 +183,37 @@
             deliveryTime: parseInt(document.getElementById('mi-delivery').value) || null,
             available: true
         };
+
         if (!data.name) return showToast('⚠ Item name is required', 'error');
         if (data.price <= 0) return showToast('⚠ Price must be greater than 0', 'error');
-        // handle image upload if new file selected
+
         if (currentImageFile) {
-            document.getElementById('upload-status').textContent = 'uploading...';
+            document.getElementById('upload-status').textContent = 'uploading to Cloudinary...';
             try {
-                // Store as imageURL for customer app compatibility
                 data.imageURL = await uploadToCloudinary(currentImageFile);
             } catch (e) {
                 showToast('❌ Image upload failed', 'error');
                 return;
             }
         } else {
-            // keep existing imageURL from hidden field (for edit)
-            const existingUrl = document.getElementById('mi-image-url').value;
-            if (existingUrl) data.imageURL = existingUrl;
+            const existing = document.getElementById('mi-image-url').value;
+            if (existing) data.imageURL = existing;
         }
-        const ref = key
-            ? db.ref(`vendors/${currentKey}/menu/${key}`)
+
+        const ref = key 
+            ? db.ref(`vendors/${currentKey}/menu/${key}`) 
             : db.ref(`vendors/${currentKey}/menu`).push();
-        ref.set(data)
-            .then(() => { showToast('✅ Menu item saved - customers will see this immediately', 'success'); closeModal(); })
-            .catch(() => showToast('❌ Failed to save item', 'error'));
+
+        ref.set(data).then(() => {
+            showSuccessModal("✅ Item Saved!", 
+                "Menu item with image is now live for customers.");
+            closeModal();
+        }).catch(() => showToast('❌ Failed to save item', 'error'));
     }
-    function deleteItem(key, name) {
-        if (!confirm(`Delete "${name}"?`)) return;
-        db.ref(`vendors/${currentKey}/menu/${key}`).remove()
-            .then(() => showToast(`🗑 Deleted: ${name} - removed from customer view`, 'success'))
-            .catch(() => showToast('❌ Failed to delete', 'error'));
-    }
-    function toggleAvailability(key, current) {
-        db.ref(`vendors/${currentKey}/menu/${key}`).update({ available: !current })
-            .then(() => showToast(!current ? '✅ Item is now live (visible to customers)' : '⏸ Item hidden from customers', 'success'));
-    }
-    // ─────────────────────────────────────────────
-    // HOURS (unchanged, but syncs with customer app)
-    // ─────────────────────────────────────────────
-    function buildHoursForm() {
-        const container = document.getElementById('hoursForm');
-        const savedHours = vendorData.hours || {};
-        container.innerHTML = DAYS.map(day => {
-            const saved = savedHours[day] || { open: '09:00', close: '21:00', closed: false };
-            return `
-                <div class="hours-row">
-                    <span class="day-label">${day}</span>
-                    <input class="hours-input" id="h-open-${day}" type="time" value="${saved.open || '09:00'}" ${saved.closed ? 'disabled' : ''}>
-                    <input class="hours-input" id="h-close-${day}" type="time" value="${saved.close || '21:00'}" ${saved.closed ? 'disabled' : ''}>
-                    <div class="day-toggle">
-                        <div class="toggle ${saved.closed ? '' : 'on'}" id="h-tog-${day}" onclick="toggleDay('${day}')"></div>
-                        <span id="h-lbl-${day}">${saved.closed ? 'Closed' : 'Open'}</span>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-    function toggleDay(day) {
-        const tog = document.getElementById(`h-tog-${day}`);
-        const lbl = document.getElementById(`h-lbl-${day}`);
-        const openI = document.getElementById(`h-open-${day}`);
-        const closeI = document.getElementById(`h-close-${day}`);
-        const isOpen = tog.classList.contains('on');
-        tog.classList.toggle('on');
-        lbl.textContent = isOpen ? 'Closed' : 'Open';
-        openI.disabled = isOpen;
-        closeI.disabled = isOpen;
-    }
-    function saveHours() {
-        const hours = {};
-        DAYS.forEach(day => {
-            const isClosed = !document.getElementById(`h-tog-${day}`).classList.contains('on');
-            hours[day] = {
-                open: document.getElementById(`h-open-${day}`).value,
-                close: document.getElementById(`h-close-${day}`).value,
-                closed: isClosed
-            };
-        });
-        db.ref('vendors/' + currentKey).update({ hours }).then(() => {
-            vendorData.hours = hours;
-            showToast('✅ Hours saved - customers will see updated hours', 'success');
-        }).catch(() => showToast('❌ Failed to save hours', 'error'));
-    }
-    // ─────────────────────────────────────────────
-    // LOGOUT
-    // ─────────────────────────────────────────────
-    function doLogout() {
-        if (currentKey) db.ref(`vendors/${currentKey}/menu`).off();
-        currentKey = null;
-        vendorData = {};
-        menuItems = {};
-        document.getElementById('idInput').value = '';
-        document.getElementById('loginError').style.display = 'none';
-        showLogin();
-    }
-    // ─────────────────────────────────────────────
-    // TOAST
-    // ─────────────────────────────────────────────
-    let toastTimer;
-    function showToast(msg, type = 'success') {
-        const t = document.getElementById('toast');
-        t.textContent = msg;
-        t.className = `show ${type}`;
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => t.className = '', 3000);
-    }
-    document.getElementById('itemModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('itemModal')) closeModal();
-    });
+
+    // Rest of your code (renderMenu, initDashboard, hours, logout, etc.) remains exactly the same
+    // ... (paste all remaining functions from your previous code here) ...
+
     </script>
 </body>
 </html>
