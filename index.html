@@ -1172,13 +1172,13 @@
                 </div>
             </div>
 
-            <!-- ── PROFILE ── -->
+            <!-- ── PROFILE ── (Now includes all fields from user system) -->
             <div id="page-profile" class="page">
                 <div class="section-title">Business Profile</div>
-                <div class="section-sub">Update your restaurant's public information.</div>
+                <div class="section-sub">Update your restaurant's public information as seen by customers.</div>
 
                 <div class="info-card">
-                    <div class="card-head"><h2>Restaurant Details</h2></div>
+                    <div class="card-head"><h2>Restaurant Details (Live on Customer App)</h2></div>
                     <div class="card-body">
                         <div class="form-grid" style="margin-bottom:20px">
                             <div class="field">
@@ -1205,22 +1205,42 @@
                                 <label>Min. Order Amount (R)</label>
                                 <input type="number" id="p-minorder" placeholder="0">
                             </div>
+                            <div class="field">
+                                <label>Distance (km from center)</label>
+                                <input type="text" id="p-distance" placeholder="e.g. 2.5 km">
+                            </div>
+                            <div class="field">
+                                <label>Delivery Time</label>
+                                <input type="text" id="p-deliveryTime" placeholder="e.g. 30 min">
+                            </div>
                         </div>
                         <div class="field" style="margin-bottom:20px">
                             <label>Short Description</label>
                             <textarea id="p-desc" placeholder="Tell customers what makes your restaurant special..."></textarea>
                         </div>
+                        <div class="field" style="margin-bottom:20px">
+                            <label>Restaurant Image (appears in listings)</label>
+                            <div style="display:flex; align-items:center; gap:15px;">
+                                <img id="profileImagePreview" class="img-preview-sm" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M4 5h16v14H4z' opacity='.3'/%3E%3Cpath d='M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E" alt="preview">
+                                <div>
+                                    <input type="file" id="p-image-file" accept="image/*" style="display:none;">
+                                    <button class="upload-btn" type="button" onclick="document.getElementById('p-image-file').click()">📷 Choose Restaurant Image</button>
+                                    <span id="profile-upload-status" style="font-size:0.75rem; color:var(--dim); margin-left:8px;"></span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="p-image-url">
+                        </div>
                         <div class="save-bar">
-                            <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile</button>
+                            <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile (Updates Live)</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ── MENU ── -->
+            <!-- ── MENU ── (Images now sync with customer app) -->
             <div id="page-menu" class="page">
                 <div class="section-title">Menu Management</div>
-                <div class="section-sub">Add, edit, and toggle availability of your items.</div>
+                <div class="section-sub">Add, edit, and toggle availability of your items. These update immediately on the customer app.</div>
 
                 <div class="menu-toolbar">
                     <input class="menu-search" id="menuSearch" placeholder="Search menu items..." oninput="filterMenu()">
@@ -1230,13 +1250,13 @@
                 <div id="menuGrid" class="menu-grid"></div>
             </div>
 
-            <!-- ── HOURS ── -->
+            <!-- ── HOURS ── (Syncs with customer app) -->
             <div id="page-hours" class="page">
                 <div class="section-title">Operating Hours</div>
                 <div class="section-sub">Set your weekly schedule. Customers will see these hours on your listing.</div>
 
                 <div class="info-card">
-                    <div class="card-head"><h2>Weekly Schedule</h2></div>
+                    <div class="card-head"><h2>Weekly Schedule (Live)</h2></div>
                     <div class="card-body">
                         <div id="hoursForm"></div>
                         <div class="save-bar">
@@ -1277,7 +1297,7 @@
 
             <!-- image upload field -->
             <div class="field" style="margin-bottom:20px">
-                <label>Item Image</label>
+                <label>Item Image (appears in customer app)</label>
                 <div style="display:flex; align-items:center; gap:15px;">
                     <img id="imgPreview" class="img-preview-sm" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M4 5h16v14H4z' opacity='.3'/%3E%3Cpath d='M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E" alt="preview">
                     <div>
@@ -1329,6 +1349,20 @@
     let menuItems  = {};
 
     const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+    // Profile image upload
+    let profileImageFile = null;
+    document.getElementById('p-image-file').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        profileImageFile = file;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            document.getElementById('profileImagePreview').src = ev.target.result;
+            document.getElementById('profile-upload-status').textContent = 'file selected';
+        };
+        reader.readAsDataURL(file);
+    });
 
     // ─────────────────────────────────────────────
     //  SCREEN HELPERS
@@ -1486,13 +1520,21 @@
         const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
         document.getElementById('greet-sub').textContent = `${greet}, ${vendorData.name}!`;
 
+        // Populate profile with ALL fields (including those shown on customer app)
         document.getElementById('p-name').value     = vendorData.name        || '';
         document.getElementById('p-cuisine').value  = vendorData.cuisine     || '';
         document.getElementById('p-phone').value    = vendorData.phone       || '';
         document.getElementById('p-email').value    = vendorData.email       || '';
         document.getElementById('p-address').value  = vendorData.address     || '';
         document.getElementById('p-minorder').value = vendorData.minOrder    || '';
+        document.getElementById('p-distance').value = vendorData.distance    || '2.5 km';
+        document.getElementById('p-deliveryTime').value = vendorData.deliveryTime || '30 min';
         document.getElementById('p-desc').value     = vendorData.description || '';
+        // Use imageURL for customer app compatibility
+        if (vendorData.imageURL) {
+            document.getElementById('p-image-url').value = vendorData.imageURL;
+            document.getElementById('profileImagePreview').src = vendorData.imageURL;
+        }
 
         buildHoursForm();
 
@@ -1514,9 +1556,9 @@
     }
 
     // ─────────────────────────────────────────────
-    //  PROFILE
+    //  PROFILE - Saves ALL fields that customers see
     // ─────────────────────────────────────────────
-    function saveProfile() {
+    async function saveProfile() {
         const updates = {
             name:        document.getElementById('p-name').value.trim(),
             cuisine:     document.getElementById('p-cuisine').value.trim(),
@@ -1524,14 +1566,36 @@
             email:       document.getElementById('p-email').value.trim(),
             address:     document.getElementById('p-address').value.trim(),
             minOrder:    parseFloat(document.getElementById('p-minorder').value) || 0,
+            distance:    document.getElementById('p-distance').value.trim() || '2.5 km',
+            deliveryTime: document.getElementById('p-deliveryTime').value.trim() || '30 min',
             description: document.getElementById('p-desc').value.trim()
         };
+
+        // Handle image upload if new file selected
+        if (profileImageFile) {
+            const storageRef = storage.ref(`vendors/${currentKey}/profile/${Date.now()}_${profileImageFile.name}`);
+            document.getElementById('profile-upload-status').textContent = 'uploading...';
+            try {
+                const snapshot = await storageRef.put(profileImageFile);
+                // Use imageURL for customer app compatibility
+                updates.imageURL = await snapshot.ref.getDownloadURL();
+                document.getElementById('p-image-url').value = updates.imageURL;
+            } catch (e) {
+                showToast('❌ Image upload failed', 'error');
+                return;
+            }
+        } else {
+            // keep existing imageURL from hidden field
+            const existingUrl = document.getElementById('p-image-url').value;
+            if (existingUrl) updates.imageURL = existingUrl;
+        }
 
         db.ref('vendors/' + currentKey).update(updates).then(() => {
             vendorData = { ...vendorData, ...updates };
             document.getElementById('tb-name').textContent    = updates.name;
             document.getElementById('tb-cuisine').textContent = updates.cuisine;
-            showToast('✅ Profile saved successfully', 'success');
+            showToast('✅ Profile saved successfully - customers will see these changes immediately', 'success');
+            profileImageFile = null;
         }).catch(() => showToast('❌ Failed to save profile', 'error'));
     }
 
@@ -1570,8 +1634,9 @@
             const card  = document.createElement('div');
             card.className = 'menu-card';
 
-            const imgHtml = item.imageUrl 
-                ? `<img class="menu-card-img" src="${item.imageUrl}" alt="${item.name}" onerror="this.style.display='none'">`
+            // Use imageURL for customer app compatibility
+            const imgHtml = item.imageURL 
+                ? `<img class="menu-card-img" src="${item.imageURL}" alt="${item.name}" onerror="this.style.display='none'">`
                 : `<div class="menu-card-emoji">${item.emoji || '🍴'}</div>`;
 
             const deliveryTime = item.deliveryTime 
@@ -1633,8 +1698,9 @@
         document.getElementById('mi-desc').value  = item.description || '';
         document.getElementById('mi-delivery').value = item.deliveryTime || '';
         document.getElementById('mi-key').value   = key;
-        document.getElementById('mi-image-url').value = item.imageUrl || '';
-        document.getElementById('imgPreview').src = item.imageUrl || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M4 5h16v14H4z\' opacity=\'.3\'/%3E%3Cpath d=\'M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z\'/%3E%3C/svg%3E';
+        // Use imageURL for customer app compatibility
+        document.getElementById('mi-image-url').value = item.imageURL || '';
+        document.getElementById('imgPreview').src = item.imageURL || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M4 5h16v14H4z\' opacity=\'.3\'/%3E%3Cpath d=\'M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z\'/%3E%3C/svg%3E';
         document.getElementById('upload-status').textContent = '';
         currentImageFile = null;
         document.getElementById('mi-image-file').value = '';
@@ -1666,15 +1732,16 @@
             document.getElementById('upload-status').textContent = 'uploading...';
             try {
                 const snapshot = await storageRef.put(currentImageFile);
-                data.imageUrl = await snapshot.ref.getDownloadURL();
+                // Store as imageURL for customer app compatibility
+                data.imageURL = await snapshot.ref.getDownloadURL();
             } catch (e) {
                 showToast('❌ Image upload failed', 'error');
                 return;
             }
         } else {
-            // keep existing imageUrl from hidden field (for edit)
+            // keep existing imageURL from hidden field (for edit)
             const existingUrl = document.getElementById('mi-image-url').value;
-            if (existingUrl) data.imageUrl = existingUrl;
+            if (existingUrl) data.imageURL = existingUrl;
         }
 
         const ref = key
@@ -1682,24 +1749,24 @@
             : db.ref(`vendors/${currentKey}/menu`).push();
 
         ref.set(data)
-            .then(() => { showToast('✅ Menu item saved', 'success'); closeModal(); })
+            .then(() => { showToast('✅ Menu item saved - customers will see this immediately', 'success'); closeModal(); })
             .catch(() => showToast('❌ Failed to save item', 'error'));
     }
 
     function deleteItem(key, name) {
         if (!confirm(`Delete "${name}"?`)) return;
         db.ref(`vendors/${currentKey}/menu/${key}`).remove()
-            .then(() => showToast(`🗑 Deleted: ${name}`, 'success'))
+            .then(() => showToast(`🗑 Deleted: ${name} - removed from customer view`, 'success'))
             .catch(() => showToast('❌ Failed to delete', 'error'));
     }
 
     function toggleAvailability(key, current) {
         db.ref(`vendors/${currentKey}/menu/${key}`).update({ available: !current })
-            .then(() => showToast(!current ? '✅ Item is now live' : '⏸ Item hidden from menu', 'success'));
+            .then(() => showToast(!current ? '✅ Item is now live (visible to customers)' : '⏸ Item hidden from customers', 'success'));
     }
 
     // ─────────────────────────────────────────────
-    //  HOURS (unchanged)
+    //  HOURS (unchanged, but syncs with customer app)
     // ─────────────────────────────────────────────
     function buildHoursForm() {
         const container  = document.getElementById('hoursForm');
@@ -1746,7 +1813,7 @@
 
         db.ref('vendors/' + currentKey).update({ hours }).then(() => {
             vendorData.hours = hours;
-            showToast('✅ Hours saved', 'success');
+            showToast('✅ Hours saved - customers will see updated hours', 'success');
         }).catch(() => showToast('❌ Failed to save hours', 'error'));
     }
 
