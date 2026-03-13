@@ -8,20 +8,21 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
     <style>
         :root {
-            --bg: #0a0a0f;
-            --surface: #13131a;
-            --surface2: #1c1c28;
-            --border: rgba(255,255,255,0.07);
-            --text: #f0f0f5;
-            --dim: #6b6b82;
+            --bg: #f8f9fc;
+            --surface: #ffffff;
+            --surface2: #f1f4f9;
+            --border: rgba(0,0,0,0.08);
+            --text: #1a1e2b;
+            --dim: #5b677b;
             --accent: #ff6b35;
             --accent2: #ff9500;
-            --success: #30d158;
-            --danger: #ff453a;
-            --glow: rgba(255, 107, 53, 0.15);
+            --success: #2c9a4c;
+            --danger: #dc3545;
+            --glow: rgba(255, 107, 53, 0.08);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,7 +40,7 @@
             position: fixed;
             top: -200px; left: -200px;
             width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,107,53,0.03) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
             animation: driftBg 12s ease-in-out infinite alternate;
@@ -50,7 +51,7 @@
             position: fixed;
             bottom: -150px; right: -150px;
             width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(255,149,0,0.06) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,149,0,0.03) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
@@ -86,7 +87,7 @@
             padding: 48px 40px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.05), 0 0 0 1px rgba(255,255,255,0.5) inset;
             animation: loginAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
@@ -160,7 +161,7 @@
             color: var(--text);
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
-            letter-spacing: 4px;
+            letter-spacing: 2px;
         }
 
         .input-field::placeholder { letter-spacing: 2px; color: var(--dim); font-weight: 400; }
@@ -198,7 +199,7 @@
         }
 
         .btn-login:hover::before { left: 100%; }
-        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,53,0.35); }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,53,0.2); }
         .btn-login:active { transform: translateY(0); }
 
         .login-error {
@@ -262,7 +263,7 @@
             padding: 48px 40px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.05), 0 0 0 1px rgba(255,255,255,0.5) inset;
             animation: loginAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             margin: auto;
         }
@@ -346,7 +347,7 @@
             letter-spacing: 0.5px;
         }
 
-        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,53,0.35); }
+        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,107,53,0.2); }
         .btn-register:active { transform: translateY(0); }
         .btn-register:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
 
@@ -399,7 +400,7 @@
             border-radius: 28px;
             padding: 56px 44px;
             text-align: center;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.05);
             animation: loginAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             position: relative;
             overflow: hidden;
@@ -592,8 +593,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(48, 209, 88, 0.1);
-            border: 1px solid rgba(48,209,88,0.2);
+            background: rgba(44, 154, 76, 0.1);
+            border: 1px solid rgba(44,154,76,0.2);
             border-radius: 100px;
             padding: 8px 16px;
             font-size: 0.78rem;
@@ -609,8 +610,8 @@
         }
 
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(48,209,88,0.4); }
-            50% { box-shadow: 0 0 0 6px rgba(48,209,88,0); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(44,154,76,0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(44,154,76,0); }
         }
 
         .btn-logout {
@@ -741,7 +742,7 @@
         }
 
         .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,53,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,53,0.2); }
 
         .btn-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
         .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
@@ -749,7 +750,7 @@
         .btn-danger { background: rgba(255,69,58,0.1); border: 1px solid rgba(255,69,58,0.2); color: var(--danger); }
         .btn-danger:hover { background: var(--danger); color: white; }
 
-        .btn-success { background: rgba(48,209,88,0.1); border: 1px solid rgba(48,209,88,0.2); color: var(--success); }
+        .btn-success { background: rgba(44,154,76,0.1); border: 1px solid rgba(44,154,76,0.2); color: var(--success); }
         .btn-success:hover { background: var(--success); color: var(--bg); }
 
         .save-bar {
@@ -778,7 +779,7 @@
 
         .menu-search:focus { border-color: var(--accent); }
 
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
 
         .menu-card {
             background: var(--surface);
@@ -797,12 +798,23 @@
 
         .menu-card:hover { border-color: rgba(255,107,53,0.3); transform: translateY(-3px); }
 
+        .menu-card-img {
+            width: 100%; height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+        }
+
         .menu-card-emoji { font-size: 2rem; margin-bottom: 12px; display: block; }
         .menu-card-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-        .menu-card-desc { font-size: 0.8rem; color: var(--dim); margin-bottom: 12px; line-height: 1.5; min-height: 36px; }
+        .menu-card-desc { font-size: 0.8rem; color: var(--dim); margin-bottom: 8px; line-height: 1.5; min-height: 36px; }
+        .menu-card-meta { display: flex; gap: 16px; font-size: 0.75rem; color: var(--dim); margin-bottom: 12px; }
+        .menu-card-meta span { display: flex; align-items: center; gap: 4px; }
         .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
         .menu-card-price { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--accent); }
-        .menu-card-actions { display: flex; gap: 6px; }
+        .menu-card-actions { display: flex; gap: 6px; align-items: center; }
 
         .icon-btn {
             width: 32px; height: 32px;
@@ -845,12 +857,30 @@
 
         .toggle.on::after { transform: translateX(16px); }
 
+        /* upload button */
+        .upload-btn {
+            background: var(--surface2);
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--dim);
+            transition: 0.2s;
+            margin-top: 4px;
+        }
+        .upload-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .img-preview-sm { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; background: var(--surface2); border: 1px solid var(--border); }
+
         /* ───── MODAL ───── */
         .modal-bg {
             display: none;
             position: fixed; inset: 0;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(12px);
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -863,8 +893,9 @@
             border: 1px solid var(--border);
             border-radius: 24px;
             padding: 36px;
-            width: 480px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+            width: 560px;
+            max-width: 94vw;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.1);
             animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
@@ -888,7 +919,7 @@
             gap: 12px;
             font-size: 0.88rem;
             font-weight: 600;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             z-index: 9999;
             transform: translateY(80px);
             opacity: 0;
@@ -953,8 +984,8 @@
         .loader-ring {
             display: inline-block;
             width: 20px; height: 20px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-top-color: white;
+            border: 2px solid rgba(0,0,0,0.1);
+            border-top-color: var(--accent);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             vertical-align: middle;
@@ -962,7 +993,7 @@
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.4); }
+        input[type="time"]::-webkit-calendar-picker-indicator { filter: none; opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -973,12 +1004,11 @@
             <div class="login-logo">VYNIX<span>EATS</span></div>
             <div class="login-tagline">VENDOR PORTAL</div>
             <div class="login-title">Welcome<br>back.</div>
-            <div class="login-subtitle">Enter your 4-digit Vendor ID to access your dashboard.</div>
+            <div class="login-subtitle">Enter your Vendor ID to access your dashboard.</div>
 
             <div class="input-group">
                 <label>Vendor ID</label>
-                <input class="input-field" id="idInput" type="text" maxlength="4" placeholder="0000"
-                    oninput="this.value=this.value.replace(/\D/g,'')"
+                <input class="input-field" id="idInput" type="text" placeholder="e.g. A1B2"
                     onkeydown="if(event.key==='Enter')doLogin()">
             </div>
 
@@ -999,7 +1029,7 @@
             <div class="login-tagline" style="margin-bottom:24px">VENDOR PORTAL</div>
             <div class="register-title">Join Vynix Eats</div>
             <div class="register-subtitle">
-                Submit your restaurant details below. Our admin team will review your application, and once approved, they will assign you a <strong style="color:var(--text)">4-digit Vendor ID</strong> — which you'll use to log in. You'll be contacted via the details you provide.
+                Submit your restaurant details below. Our admin team will review your application, and once approved, they will assign you a <strong style="color:var(--text)">Vendor ID</strong> — which you'll use to log in. You'll be contacted via the details you provide.
             </div>
 
             <div class="reg-grid">
@@ -1063,7 +1093,7 @@
                 </div>
                 <div class="pending-step">
                     <div class="step-num">2</div>
-                    <span>Once approved, the admin assigns a unique <strong style="color:var(--text)">4-digit Vendor ID</strong> to your account.</span>
+                    <span>Once approved, the admin assigns a unique <strong style="color:var(--text)">Vendor ID</strong> to your account.</span>
                 </div>
                 <div class="pending-step">
                     <div class="step-num">3</div>
@@ -1218,17 +1248,17 @@
         </div>
     </div>
 
-    <!-- ═══ ADD/EDIT ITEM MODAL ═══ -->
+    <!-- ═══ ADD/EDIT ITEM MODAL (with image upload & delivery time) ═══ -->
     <div class="modal-bg" id="itemModal">
         <div class="modal">
             <h3 id="modalTitle">Add Menu Item</h3>
             <div class="form-grid" style="margin-bottom:20px">
                 <div class="field">
-                    <label>Item Name</label>
+                    <label>Item Name *</label>
                     <input type="text" id="mi-name" placeholder="e.g. Margherita Pizza">
                 </div>
                 <div class="field">
-                    <label>Price (R)</label>
+                    <label>Price (R) *</label>
                     <input type="number" id="mi-price" placeholder="0.00">
                 </div>
                 <div class="field">
@@ -1239,7 +1269,26 @@
                     <label>Emoji Icon</label>
                     <input type="text" id="mi-emoji" placeholder="🍕" maxlength="4">
                 </div>
+                <div class="field">
+                    <label>Est. Delivery (min)</label>
+                    <input type="number" id="mi-delivery" placeholder="e.g. 25" min="1" step="1">
+                </div>
             </div>
+
+            <!-- image upload field -->
+            <div class="field" style="margin-bottom:20px">
+                <label>Item Image</label>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <img id="imgPreview" class="img-preview-sm" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M4 5h16v14H4z' opacity='.3'/%3E%3Cpath d='M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E" alt="preview">
+                    <div>
+                        <input type="file" id="mi-image-file" accept="image/*" style="display:none;">
+                        <button class="upload-btn" id="uploadBtn" type="button" onclick="document.getElementById('mi-image-file').click()">📷 Choose Image</button>
+                        <span id="upload-status" style="font-size:0.75rem; color:var(--dim); margin-left:8px;"></span>
+                    </div>
+                </div>
+                <input type="hidden" id="mi-image-url">
+            </div>
+
             <div class="field" style="margin-bottom:24px">
                 <label>Description</label>
                 <textarea id="mi-desc" placeholder="Brief description of the item..."></textarea>
@@ -1270,6 +1319,7 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    const storage = firebase.storage();
 
     // ─────────────────────────────────────────────
     //  STATE
@@ -1306,13 +1356,7 @@
     }
 
     // ─────────────────────────────────────────────
-    //  REGISTRATION
-    //  Saves with status='pending' and NO vendorID.
-    //  The admin dashboard is responsible for:
-    //    - reviewing the application
-    //    - assigning a vendorID
-    //    - setting status='active'
-    //  Only then can the vendor log in.
+    //  REGISTRATION (unchanged)
     // ─────────────────────────────────────────────
     async function submitRegistration() {
         const name     = document.getElementById('r-name').value.trim();
@@ -1338,7 +1382,6 @@
         btn.innerHTML = '<div class="loader-ring"></div> Submitting...';
         btn.disabled = true;
 
-        // Prevent duplicate applications
         try {
             const dupSnap = await db.ref('vendors').orderByChild('email').equalTo(email).once('value');
             if (dupSnap.exists()) {
@@ -1349,26 +1392,15 @@
             }
         } catch(e) { /* non-blocking */ }
 
-        // ── Save to Firebase ──
-        // NOTE: No vendorID field. The admin assigns it on approval.
         const application = {
-            name,
-            cuisine,
-            owner,
-            phone,
-            email,
-            address,
-            minOrder,
-            description: desc,
-            status: 'pending',
-            registeredAt: Date.now()
+            name, cuisine, owner, phone, email, address,
+            minOrder, description: desc, status: 'pending', registeredAt: Date.now()
         };
 
         db.ref('vendors').push(application)
             .then(() => {
                 btn.innerHTML = 'Submit Application';
                 btn.disabled = false;
-                // Clear form
                 ['r-name','r-cuisine','r-owner','r-phone','r-email','r-minorder','r-address','r-desc']
                     .forEach(id => document.getElementById(id).value = '');
                 showPending();
@@ -1388,27 +1420,22 @@
     }
 
     // ─────────────────────────────────────────────
-    //  LOGIN
-    //  Vendors can only log in if:
-    //    1. A vendorID exists on their record
-    //       (i.e. admin has assigned one)
-    //    2. status === 'active'
-    //       (i.e. admin has approved them)
+    //  LOGIN (alphanumeric vendorID)
     // ─────────────────────────────────────────────
     function doLogin() {
         const idVal = document.getElementById('idInput').value.trim();
-        if (!idVal || idVal.length !== 4) return showError('Please enter a valid 4-digit ID.');
+        if (!idVal) return showError('Please enter your Vendor ID.');
 
         const btn = document.getElementById('loginBtn');
         btn.innerHTML = '<div class="loader-ring"></div>';
         btn.disabled = true;
 
-        db.ref('vendors').orderByChild('vendorID').equalTo(parseInt(idVal)).once('value', snap => {
+        // vendorID is stored as a string (can be letters/numbers)
+        db.ref('vendors').orderByChild('vendorID').equalTo(idVal).once('value', snap => {
             btn.innerHTML = 'Access Portal';
             btn.disabled = false;
 
             if (!snap.exists()) {
-                // Could be pending (no vendorID yet) or simply wrong ID
                 showError('Vendor ID not found. If your application is pending, you will receive your ID once approved by admin.');
                 return;
             }
@@ -1447,13 +1474,13 @@
     }
 
     // ─────────────────────────────────────────────
-    //  DASHBOARD INIT
+    //  DASHBOARD INIT (with menu listener)
     // ─────────────────────────────────────────────
     function initDashboard() {
         document.getElementById('tb-name').textContent    = vendorData.name;
         document.getElementById('tb-id').textContent      = vendorData.vendorID;
         document.getElementById('tb-cuisine').textContent = vendorData.cuisine;
-        document.getElementById('stat-id').textContent    = '#' + vendorData.vendorID;
+        document.getElementById('stat-id').textContent    = vendorData.vendorID;
 
         const hour  = new Date().getHours();
         const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
@@ -1509,8 +1536,21 @@
     }
 
     // ─────────────────────────────────────────────
-    //  MENU
+    //  MENU (with image upload & delivery time)
     // ─────────────────────────────────────────────
+    let currentImageFile = null;
+    document.getElementById('mi-image-file').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        currentImageFile = file;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            document.getElementById('imgPreview').src = ev.target.result;
+            document.getElementById('upload-status').textContent = 'file selected';
+        };
+        reader.readAsDataURL(file);
+    });
+
     function renderMenu(filter = '') {
         const grid = document.getElementById('menuGrid');
         const keys = Object.keys(menuItems);
@@ -1529,11 +1569,23 @@
             const avail = item.available !== false;
             const card  = document.createElement('div');
             card.className = 'menu-card';
+
+            const imgHtml = item.imageUrl 
+                ? `<img class="menu-card-img" src="${item.imageUrl}" alt="${item.name}" onerror="this.style.display='none'">`
+                : `<div class="menu-card-emoji">${item.emoji || '🍴'}</div>`;
+
+            const deliveryTime = item.deliveryTime 
+                ? `<span>⏱️ ${item.deliveryTime} min</span>` 
+                : '<span>⏱️ —</span>';
+
             card.innerHTML = `
                 <span class="cat-tag">${item.category || 'Uncategorized'}</span>
-                <span class="menu-card-emoji">${item.emoji || '🍴'}</span>
+                ${imgHtml}
                 <div class="menu-card-name">${item.name}</div>
                 <div class="menu-card-desc">${item.description || 'No description'}</div>
+                <div class="menu-card-meta">
+                    ${deliveryTime}
+                </div>
                 <div class="menu-card-footer">
                     <div class="menu-card-price">R${parseFloat(item.price||0).toFixed(2)}</div>
                     <div class="menu-card-actions">
@@ -1563,7 +1615,11 @@
 
     function openAddItem() {
         document.getElementById('modalTitle').textContent = 'Add Menu Item';
-        ['mi-name','mi-price','mi-cat','mi-emoji','mi-desc','mi-key'].forEach(id => document.getElementById(id).value = '');
+        ['mi-name','mi-price','mi-cat','mi-emoji','mi-desc','mi-key','mi-image-url','mi-delivery'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('imgPreview').src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M4 5h16v14H4z\' opacity=\'.3\'/%3E%3Cpath d=\'M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z\'/%3E%3C/svg%3E';
+        document.getElementById('upload-status').textContent = '';
+        currentImageFile = null;
+        document.getElementById('mi-image-file').value = '';
         document.getElementById('itemModal').classList.add('open');
     }
 
@@ -1575,7 +1631,13 @@
         document.getElementById('mi-cat').value   = item.category    || '';
         document.getElementById('mi-emoji').value = item.emoji       || '';
         document.getElementById('mi-desc').value  = item.description || '';
+        document.getElementById('mi-delivery').value = item.deliveryTime || '';
         document.getElementById('mi-key').value   = key;
+        document.getElementById('mi-image-url').value = item.imageUrl || '';
+        document.getElementById('imgPreview').src = item.imageUrl || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M4 5h16v14H4z\' opacity=\'.3\'/%3E%3Cpath d=\'M20 5v14H4V5h16m0-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z\'/%3E%3C/svg%3E';
+        document.getElementById('upload-status').textContent = '';
+        currentImageFile = null;
+        document.getElementById('mi-image-file').value = '';
         document.getElementById('itemModal').classList.add('open');
     }
 
@@ -1583,7 +1645,7 @@
         document.getElementById('itemModal').classList.remove('open');
     }
 
-    function saveMenuItem() {
+    async function saveMenuItem() {
         const key  = document.getElementById('mi-key').value;
         const data = {
             name:        document.getElementById('mi-name').value.trim(),
@@ -1591,10 +1653,29 @@
             category:    document.getElementById('mi-cat').value.trim(),
             emoji:       document.getElementById('mi-emoji').value.trim() || '🍴',
             description: document.getElementById('mi-desc').value.trim(),
+            deliveryTime: parseInt(document.getElementById('mi-delivery').value) || null,
             available:   true
         };
 
         if (!data.name) return showToast('⚠ Item name is required', 'error');
+        if (data.price <= 0) return showToast('⚠ Price must be greater than 0', 'error');
+
+        // handle image upload if new file selected
+        if (currentImageFile) {
+            const storageRef = storage.ref(`vendors/${currentKey}/menu/${Date.now()}_${currentImageFile.name}`);
+            document.getElementById('upload-status').textContent = 'uploading...';
+            try {
+                const snapshot = await storageRef.put(currentImageFile);
+                data.imageUrl = await snapshot.ref.getDownloadURL();
+            } catch (e) {
+                showToast('❌ Image upload failed', 'error');
+                return;
+            }
+        } else {
+            // keep existing imageUrl from hidden field (for edit)
+            const existingUrl = document.getElementById('mi-image-url').value;
+            if (existingUrl) data.imageUrl = existingUrl;
+        }
 
         const ref = key
             ? db.ref(`vendors/${currentKey}/menu/${key}`)
@@ -1618,7 +1699,7 @@
     }
 
     // ─────────────────────────────────────────────
-    //  HOURS
+    //  HOURS (unchanged)
     // ─────────────────────────────────────────────
     function buildHoursForm() {
         const container  = document.getElementById('hoursForm');
